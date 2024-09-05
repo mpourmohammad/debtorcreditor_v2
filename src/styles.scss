@@ -1,6 +1,26 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+  font-family: Sahel;
+  src: url("assets/fonts/Samim/sahel.eot");
+  src: url("assets/fonts/Samim/sahel.eot?#iefix") format("embedded-opentype"),
+    url("assets/fonts/Samim/sahel.woff") format("woff"),
+    url("assets/fonts/Samim/sahel.ttf") format("truetype");
+  font-weight: normal;
+}
+/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: Sahel;
+  direction: rtl;
+  text-align: right;
+}
 
+html,
+body {
+  height: 100%;
+  background-color: #f8f9fa;
+}
+body {
+  margin: 0;
+}
