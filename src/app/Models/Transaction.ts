@@ -1,9 +1,14 @@
+import { Users } from './Users';
+
 export class Transaction {
-  id!: number;
-  name!: string;
-  company!: number;
-  username!: string;
-  email!: string;
-  address!: string;
-  state!: number;
+  id: any;
+  amount: any;
+  description: any;
+  transaction_Date: any;
+  isClearing: any;
+  isDebtor: any;
+  created_Date: any;
+  updated_Date: any;
+  userId: any;
+  users!: Users[];
 }

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ApiService {
-  api = 'https://fake-json-api.mock.beeceptor.com/users';
   constructor() { }
   /**
    * Fetches a list of users from a mock API endpoint.
    * @returns {Promise<any>} A promise that resolves to the user data returned from the API.
    */
   getUsers() {
-    return fetch(this.api)
+    debugger;
+    return fetch(environment.urlapi + 'Transactions')
       .then(response => response.json())
       .then(data => {
         return data;

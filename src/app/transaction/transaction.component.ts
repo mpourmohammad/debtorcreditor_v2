@@ -8,25 +8,30 @@ import { ApiService } from '../Services/api.service';
   standalone: true,
   imports: [TableModule],
   templateUrl: './transaction.component.html',
-  styleUrl: './transaction.component.scss'
+  styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent {
   transactions!: Transaction[];
 
   cols!: any[];
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.cols = [
       { field: 'id', header: 'id' },
-      { field: 'name', header: 'name' },
-      { field: 'company', header: 'company' },
-      { field: 'username', header: 'username' },
-      { field: 'email', header: 'email' }
+      { field: 'amount', header: 'amount' },
+      { field: 'description', header: 'description' },
+      { field: 'transaction_Date', header: 'transaction_Date' },
+      { field: 'isClearing', header: 'isClearing' },
+      { field: 'isDebtor', header: 'isDebtor' },
+      { field: 'created_Date', header: 'created_Date' },
+      { field: 'updated_Date', header: 'updated_Date' },
+      { field: 'userId', header: 'userId' },
+      { field: 'users', header: 'users' },
     ];
 
-    this.apiService.getUsers().then(data => {
+    this.apiService.getUsers().then((data) => {
       debugger;
       this.transactions = data;
     });
