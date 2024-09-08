@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionComponent } from './Components/transaction/transaction.component';
 
 @Component({
   selector: 'app-root',

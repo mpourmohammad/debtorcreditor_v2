@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { Transaction } from '../Models/Transaction';
-import { ApiService } from '../Services/api.service';
 import { CommonModule } from '@angular/common';
-import { AppModule } from '../app.module';
+import { Transaction } from '../../Models/Transaction';
+import { AppModule } from '../../app.module';
+import { ApiService } from '../../Services/api.service';
 
 @Component({
   selector: 'app-transaction',
@@ -19,7 +19,7 @@ export class TransactionComponent {
   sumDebtor!: any;
   sumCreditor!: any;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     this.cols = [
@@ -36,16 +36,19 @@ export class TransactionComponent {
     ];
 
     this.apiService.getUsers().then((data) => {
-      this.transactions = data;
+      if (data !== undefined) {
+        this.transactions = data;
+        if (this.transactions.length !== 0) {
+          // Sum Amount
+          this.sumDebtor = this.transactions
+            .filter((item) => item.isDebtor !== 0)
+            .reduce((sum, current) => sum + current.amount, 0);
 
-      // Sum Amount
-      this.sumDebtor = this.transactions
-        .filter((item) => item.isDebtor !== 0)
-        .reduce((sum, current) => sum + current.amount, 0);
-
-      this.sumCreditor = this.transactions
-        .filter((item) => item.isDebtor === 0)
-        .reduce((sum, current) => sum + current.amount, 0);
+          this.sumCreditor = this.transactions
+            .filter((item) => item.isDebtor === 0)
+            .reduce((sum, current) => sum + current.amount, 0);
+        }
+      }
     });
   }
 }
