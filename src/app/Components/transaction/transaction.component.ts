@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Transaction } from '../../Models/Transaction';
 import { AppModule } from '../../app.module';
 import { ApiService } from '../../Services/api.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Users } from '../../Models/Users';
 
 @Component({
   selector: 'app-transaction',
@@ -13,15 +15,28 @@ import { ApiService } from '../../Services/api.service';
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent {
+  getUsers!: Users[];
+  getRoles!: Users[];
+
+  checkoutForm!: FormGroup;
+  haghighiDialog!: boolean;
+
   transactions!: Transaction[];
+  transaction!: Transaction;
+  selectGetCalcs!: Transaction[];
 
   cols!: any[];
   sumDebtor!: any;
   sumCreditor!: any;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+  ) {
+
+  }
 
   ngOnInit() {
+    this.haghighiDialog = true;
     this.cols = [
       { field: 'id', header: 'شناسه تراکنش' },
       { field: 'amount', header: 'مبلغ' },
@@ -55,4 +70,7 @@ export class TransactionComponent {
   onFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
   }
+  openNew() {}
+  filter() {}
+  onSubmit(a: any) {}
 }

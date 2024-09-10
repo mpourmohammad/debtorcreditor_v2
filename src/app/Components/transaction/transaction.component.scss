@@ -1,0 +1,36 @@
+@import "../../../assets/scss/styleComponenet.scss";
+
+.displayNone {
+  display: none
+}
+
+hr {
+  margin: 5px;
+}
+
+.borderTable {
+  border: 1px solid #cccccc45;
+}
+
+.form-control {
+  padding: 0px 10px 0px 10px;
+}
+
+label {
+  font-size: small;
+}
+
+.p-dialog .p-dialog-header {
+  padding: 2px;
+}
+
+.card {
+  width: 100%;
+}
+
+.headerColor {
+  background: #d2d2d2;
+  text-align: center;
+  color: black;
+  border-radius: 5px;
+}

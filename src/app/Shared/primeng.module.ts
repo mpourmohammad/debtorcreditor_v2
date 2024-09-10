@@ -21,6 +21,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { SplitterModule } from 'primeng/splitter';
+import { PanelModule } from 'primeng/panel';
+import { CardModule } from 'primeng/card';
+
 @NgModule({
   declarations: [],
   exports: [
@@ -43,7 +47,10 @@ import { InputTextModule } from 'primeng/inputtext';
     ConfirmDialogModule,
     InputTextareaModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    SplitterModule,
+    PanelModule,
+    CardModule,
   ],
   imports: [CommonModule],
 })

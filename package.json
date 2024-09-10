@@ -25,6 +25,7 @@
     "@angular/ssr": "^18.1.1",
     "express": "^4.18.2",
     "jalali-moment": "^3.3.11",
+    "primeicons": "^7.0.0",
     "primeng": "^17.18.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
