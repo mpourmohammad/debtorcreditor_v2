@@ -51,4 +51,8 @@ export class TransactionComponent {
       }
     });
   }
+
+  onFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+  }
 }

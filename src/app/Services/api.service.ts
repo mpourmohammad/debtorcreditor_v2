@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment.development';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor() {}
+  constructor() { }
   /**
    * Fetches a list of users from a mock API endpoint.
    * @returns {Promise<any>} A promise that resolves to the user data returned from the API.

@@ -1,15 +1,14 @@
 <div class="card">
-  <label class="ml-5" for=""
-    >کل مبلغ بستانکاری : (
+  <label class="ml-5" for="">کل مبلغ بستانکاری : (
     <span style="color: darkgreen"> {{ sumDebtor | number }} </span>
-    ) تومان</label
-  >
+    ) تومان</label>
   <label> &nbsp; | &nbsp; </label>
-  <label
-    >کل مبلغ بدهکاری : (
+  <label>کل مبلغ بدهکاری : (
     <span style="color: crimson"> {{ sumCreditor | number }} </span>
-    ) تومان</label
-  >
+    ) تومان</label>
+
+
+  <!--
   <p-table [columns]="cols" [value]="transactions">
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -43,5 +42,103 @@
         <td>{{ columns.users }}</td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
 </div>
+
+
+<p-table [columns]="cols" #dt1 [value]="transactions"
+  [globalFilterFields]="['id', 'amount', 'description', 'transaction_Date', 'isClearing']" selectionMode="single"
+  dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5" [paginator]="true" stateStorage="session"
+  stateKey="statedemo-session">
+  <ng-template pTemplate="caption">
+    <p-iconField iconPosition="left">
+      <p-inputIcon>
+        <i class="pi pi-search"></i>
+      </p-inputIcon>
+      <input pInputText type="text" (input)="onFilter($event)"
+        placeholder="Global Search" />
+    </p-iconField>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+
+    <tr>
+      <th pSortableColumn="id">
+        شناسه تراکنش <p-sortIcon field="id" />
+      </th>
+      <th pSortableColumn="amount">
+        مبلغ <p-sortIcon field="amount" />
+      </th>
+      <th pSortableColumn="description">
+        توضیحات تکمیلی <p-sortIcon field="description" />
+      </th>
+      <th pSortableColumn="transaction_Date">
+        تاریخ تراکنش <p-sortIcon field="transaction_Date" />
+      </th>
+      <th pSortableColumn="isClearing">
+        تسویه شده <p-sortIcon field="isClearing" />
+      </th>
+      <th pSortableColumn="isDebtor">
+        بدهکار یا بستانکار <p-sortIcon field="isDebtor" />
+      </th>
+      <th pSortableColumn="created_Date">
+        تاریخ ثبت تراکنش <p-sortIcon field="created_Date" />
+      </th>
+      <th pSortableColumn="updated_Date">
+        تاریخ آخرین به روز رسانی ترانکش <p-sortIcon field="updated_Date" />
+      </th>
+      <th pSortableColumn="userId">
+        شناسه کاربر <p-sortIcon field="userId" />
+      </th>
+      <th pSortableColumn="users">
+        کاربر<p-sortIcon field="users" />
+      </th>
+    </tr>
+
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns>
+    <tr>
+      <td>{{ columns.id }}</td>
+      <td>{{ columns.amount | number }}</td>
+      <td>{{ columns.description }}</td>
+      <td>{{ columns.transaction_Date | jalali }}</td>
+
+      @if (columns.isClearing) {
+      <td>پاک نشده</td>
+      } @else {
+      <td>پاک شده</td>
+      } @if (columns.isDebtor) {
+      <td>بدهکار</td>
+      } @else {
+      <td>بستانکار</td>
+      }
+
+      <td>{{ columns.created_Date | jalali }}</td>
+      <td>{{ columns.updated_Date | jalali }}</td>
+      <td>{{ columns.userId }}</td>
+      <td>{{ columns.users }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns>
+    <tr>
+      <td>{{ columns.id }}</td>
+      <td>{{ columns.amount | number }}</td>
+      <td>{{ columns.description }}</td>
+      <td>{{ columns.transaction_Date | jalali }}</td>
+
+      @if (columns.isClearing) {
+      <td>پاک نشده</td>
+      } @else {
+      <td>پاک شده</td>
+      } @if (columns.isDebtor) {
+      <td>بدهکار</td>
+      } @else {
+      <td>بستانکار</td>
+      }
+
+      <td>{{ columns.created_Date | jalali }}</td>
+      <td>{{ columns.updated_Date | jalali }}</td>
+      <td>{{ columns.userId }}</td>
+      <td>{{ columns.users }}</td>
+    </tr>
+  </ng-template>
+</p-table>

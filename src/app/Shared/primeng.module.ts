@@ -11,7 +11,6 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToolbarModule } from 'primeng/toolbar';
 import { RatingModule } from 'primeng/rating';
@@ -19,7 +18,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
   declarations: [],
   exports: [
@@ -41,6 +42,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    IconFieldModule,
+    InputIconModule
   ],
   imports: [CommonModule],
 })
