@@ -25,6 +25,7 @@ import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 
+
 @NgModule({
   declarations: [],
   exports: [

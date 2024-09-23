@@ -1,28 +1,10 @@
 <p-card header="سیستم بدهکار بستانکار ">
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">
-      <button
-        pButton
-        pRipple
-        icon="pi pi-user-plus"
-        class="p-button-warning ml-2"
-        routerLink="/listdebtorcreditor"
-      ></button>
-      <button
-        style="margin: 5px"
-        pButton
-        pRipple
-        icon="pi pi-money-bill"
-        class="p-button-success ml-2"
-        (click)="openNew()"
-      ></button>
-      <button
-        pButton
-        pRipple
-        icon="pi pi-search"
-        class="p-button-primary ml-2"
-        (click)="filter()"
-      ></button>
+
+      <p-button icon="pi pi-plus" severity="success" (click)="showDialog()" />
+      <p-button icon="pi pi-search" severity="info" (click)="filter()" />
+
     </ng-template>
     <p>
       کل مبلغ بستانکاری : (
@@ -36,282 +18,146 @@
       ) تومان
     </p>
   </p-toolbar>
-  <p-table
-    [columns]="cols"
-    #dt1
-    [value]="transactions"
-    [globalFilterFields]="[
+  <p-table [columns]="cols" #dt1 [value]="transactions" [globalFilterFields]="[
       'id',
       'amount',
       'description',
       'transaction_Date',
       'isClearing'
-    ]"
-    selectionMode="single"
-    dataKey="id"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="10"
-    [paginator]="true"
-    stateStorage="session"
-    stateKey="statedemo-session"
-  >
+    ]" selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="10" [paginator]="true"
+    stateStorage="session" stateKey="statedemo-session">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th pSortableColumn="id">شناسه تراکنش <p-sortIcon field="id" /></th>
-        <th pSortableColumn="amount">مبلغ <p-sortIcon field="amount" /></th>
+        <th pSortableColumn="id">شناسه تراکنش <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="amount">مبلغ <p-sortIcon field="amount"></p-sortIcon></th>
         <th pSortableColumn="description">
-          توضیحات تکمیلی <p-sortIcon field="description" />
+          توضیحات تکمیلی <p-sortIcon field="description"></p-sortIcon>
         </th>
         <th pSortableColumn="transaction_Date">
-          تاریخ تراکنش <p-sortIcon field="transaction_Date" />
+          تاریخ تراکنش <p-sortIcon field="transaction_Date"></p-sortIcon>
         </th>
         <th pSortableColumn="isClearing">
-          تسویه شده <p-sortIcon field="isClearing" />
+          تسویه شده <p-sortIcon field="isClearing"></p-sortIcon>
         </th>
         <th pSortableColumn="isDebtor">
-          بدهکار یا بستانکار <p-sortIcon field="isDebtor" />
+          بدهکار یا بستانکار <p-sortIcon field="isDebtor"></p-sortIcon>
         </th>
         <th pSortableColumn="created_Date">
-          تاریخ ثبت تراکنش <p-sortIcon field="created_Date" />
+          تاریخ ثبت تراکنش <p-sortIcon field="created_Date"></p-sortIcon>
         </th>
         <th pSortableColumn="updated_Date">
-          تاریخ آخرین به روز رسانی ترانکش <p-sortIcon field="updated_Date" />
+          تاریخ آخرین به روز رسانی ترانکش <p-sortIcon field="updated_Date"></p-sortIcon>
         </th>
         <th pSortableColumn="userId">
-          شناسه کاربر <p-sortIcon field="userId" />
+          شناسه کاربر <p-sortIcon field="userId"></p-sortIcon>
         </th>
-        <th pSortableColumn="users">کاربر<p-sortIcon field="users" /></th>
+        <th pSortableColumn="users">کاربر<p-sortIcon field="users"></p-sortIcon></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td>{{ columns.id }}</td>
-        <td>{{ columns.amount | number }}</td>
-        <td>{{ columns.description }}</td>
-        <td>{{ columns.transaction_Date | jalali }}</td>
+        <td>{{ rowData.id }}</td>
+        <td>{{ rowData.amount | number }}</td>
+        <td>{{ rowData.description }}</td>
+        <td>{{ rowData.transaction_Date | jalali }}</td>
 
-        @if (columns.isClearing) {
+        @if (rowData.isClearing) {
         <td>پاک نشده</td>
         } @else {
         <td>پاک شده</td>
-        } @if (columns.isDebtor) {
+        } @if (rowData.isDebtor) {
         <td>بدهکار</td>
         } @else {
         <td>بستانکار</td>
         }
 
-        <td>{{ columns.created_Date | jalali }}</td>
-        <td>{{ columns.updated_Date | jalali }}</td>
-        <td>{{ columns.userId }}</td>
-        <td>{{ columns.users }}</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns>
-      <tr>
-        <td>{{ columns.id }}</td>
-        <td>{{ columns.amount | number }}</td>
-        <td>{{ columns.description }}</td>
-        <td>{{ columns.transaction_Date | jalali }}</td>
-
-        @if (columns.isClearing) {
-        <td>پاک نشده</td>
-        } @else {
-        <td>پاک شده</td>
-        } @if (columns.isDebtor) {
-        <td>بدهکار</td>
-        } @else {
-        <td>بستانکار</td>
-        }
-
-        <td>{{ columns.created_Date | jalali }}</td>
-        <td>{{ columns.updated_Date | jalali }}</td>
-        <td>{{ columns.userId }}</td>
-        <td>{{ columns.users }}</td>
+        <td>{{ rowData.created_Date | jalali }}</td>
+        <td>{{ rowData.updated_Date | jalali }}</td>
+        <td>{{ rowData.userId }}</td>
+        <td>{{ rowData.users }}</td>
       </tr>
     </ng-template>
   </p-table>
 
+
   <!-- Add Update -->
-  <p-dialog
-    [(visible)]="haghighiDialog"
-    [style]="{ width: '70%', 'z-index:': '800', direction: 'rtl' }"
-    [modal]="true"
-    styleClass="p-fluid"
-  >
+  <p-dialog [(visible)]="haghighiDialog" [style]="{ width: '70%', direction: 'rtl' }"
+    header="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <form
-        [formGroup]="checkoutForm"
-        id="add_haghighiPerson"
-        name="add_haghighiPerson"
-        (ngSubmit)="onSubmit($event)"
-        #doc="ngForm"
-      >
-        <div class="container row">
+      <form autocomplete="off" [formGroup]="checkoutForm" id="add_haghighiPerson" name="add_haghighiPerson"
+        (ngSubmit)="onSubmit($event)" #doc="ngForm">
+        <div class="row col-md-12">
+          <!-- مبلغ -->
           <div class="col-md-6">
-            <label for="UserID"> نام (بدهکار یا بستانکار) </label>
-
-            <select
-              class="form-control"
-              id="UserID"
-              formControlName="UserID"
-              [(ngModel)]="transaction.id"
-            >
-              <option *ngFor="let user of getUsers" value="{{ user.id }}">
-                {{ user.username }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label for="RoleID">نسبت</label>
-
-            <select
-              class="form-control"
-              name="cars"
-              id="RoleID"
-              formControlName="RoleID"
-              [(ngModel)]="transaction.userId"
-            >
-              <option *ngFor="let role of getRoles" value="{{ role.id }}">
-                {{ role.fullNames }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label>بدهکار - بستانکار</label>
-            <br />
-            <div class="text-center">
-              <input
-                class="m-2"
-                type="radio"
-                value="True"
-                id="debtor"
-                formControlName="DandC"
-                [(ngModel)]="transaction.isDebtor"
-              />
-              <label for="DandC">بدهکار</label>
-              <input
-                class="m-2"
-                type="radio"
-                value="False"
-                id="creditor"
-                formControlName="DandC"
-                [(ngModel)]="transaction.isDebtor"
-              />
-              <label for="creditor">بستانکار</label>
-            </div>
+            <label for="FirstName">مبلغ</label>
+            <input type="text" pInputText id="amount" maxlength="40" formControlName="amount"
+              [(ngModel)]="haghighiPerson.amount" />
           </div>
 
+          <!-- توضیحات -->
           <div class="col-md-6">
-            <label for="Fee">مبلغ</label>
-            <input
-              type="text"
-              pInputText
-              placeholder="مبلغ بدهکاری - بستانکاری"
-              id="Fee"
-              formControlName="Fee"
-              [(ngModel)]="transaction.amount"
-            />
+            <label for="price">توضیحات</label>
+            <input type="text" pInputText id="description" maxlength="40" formControlName="description"
+              [(ngModel)]="haghighiPerson.description" />
           </div>
+
+          <!-- وضعیت پرداخت -->
           <div class="col-md-6">
-            <label for="Title">موضوع</label>
-            <input
-              type="text"
-              pInputText
-              placeholder="موضوع بدهکاری - بستانکاری"
-              id="Title"
-              formControlName="Title"
-              [(ngModel)]="transaction.description"
-            />
+            <label for="description">وضعیت پرداخت</label>
+            <input type="text" pInputText id="created_Date" maxlength="40" formControlName="created_Date"
+              [(ngModel)]="haghighiPerson.created_Date" />
           </div>
+
+          <!-- وضعیت بدهکاری -->
+          <div class="col-md-6">
+            <label for="isDebtor">وضعیت بدهکاری</label>
+            <input type="text" pInputText id="isDebtor" maxlength="20" formControlName="isDebtor"
+              [(ngModel)]="haghighiPerson.isDebtor" />
+          </div>
+
           <!-- <div class="col-md-6">
-             <label for="Img">تصویر فیش</label>
-             <input type="file" id="img" name="img" accept="image/*" />
-             <input
-               class="form-control btn btn-success"
-               type="submit"
-               value="رسید را انتخاب کنید"
-               formControlName="Img"
-             />
-           </div> -->
-          <div class="col-md-6">
-            <label for="isClearTrue">تسویه شده</label>
-            <br />
-            <div class="text-center">
-              <input
-                class="m-2"
-                type="radio"
-                value="True"
-                id="isClearTrue"
-                formControlName="isClearing"
-                [(ngModel)]="transaction.isClearing"
-              />
-              <label for="isClearTrue">بله</label>
-              <input
-                class="m-2"
-                type="radio"
-                value="False"
-                id="isClearFalse"
-                formControlName="isClearing"
-                [(ngModel)]="transaction.isClearing"
-              />
-              <label for="isClearFalse">خیر</label>
-            </div>
-          </div>
-          <!--
-          <div class="col-md-6" [hidden]="btnUpdate">
-            <label for="InsertedDate">تاریخ ثبت</label>
-            <div class="row col-md-12">
-              <div class="col-md-11">
-                <input
-                  matInput
-                  pInputText
-                  id="InsertedDate"
-                  formControlName="InsertedDate"
-                  [(ngModel)]="transaction.InsertedDate"
-                  [matDatepicker]="picker6"
-                  placeholder="تاریخ ثبت"
-                />
-              </div>
-              <div class="col-md-1">
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker6"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker6></mat-datepicker>
-              </div>
-            </div>
-          </div> -->
+          <label for="ProvinceCode">استان محل صدور شناسنامه</label>
+          <select
+            class="form-control"
+            id="ProvinceCode"
+            formControlName="ProvinceCode"
+            [(ngModel)]="haghighiPerson.ProvinceCode"
+            #mySelect
+            (change)="setCity(mySelect.value)"
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let province of AllProvince"
+              value="{{ province.Code }}"
+            >
+              {{ province.Name }}
+            </option>
+          </select>
+        </div> -->
+
 
           <div class="col-md-6">
-            <label for="Dsc">توضیحات</label>
-            <input
-              type="text"
-              pInputText
-              placeholder="توضیحات بیشتر"
-              id="Dsc"
-              formControlName="Dsc"
-              [(ngModel)]="transaction.description"
-            />
+            <label for="isClearing">
+              تسویه شده</label>
+            <input type="text" pInputText id="isClearing" maxlength="15" formControlName="isClearing"
+              [(ngModel)]="haghighiPerson.isClearing" />
+          </div>
+
+          <!-- کاربر -->
+          <div class="col-md-6">
+            <label for="userId">کاربر</label>
+            <input type="text" pInputText id="userId" maxlength="20" formControlName="userId"
+              [(ngModel)]="haghighiPerson.userId" />
           </div>
 
           <div class="col-md-12 text-center m-1 p-1">
-            <input
-              type="submit"
-              name="save"
-              class="btn btn-success ml-1"
-              id="butsave"
-              [disabled]="!doc.valid"
-              style="width: 120px"
-            />
-            <input
-              name="close"
-              class="btn btn-light"
-              value="انصراف"
-              style="width: 120px"
-            />
+            <input type="submit" name="save" class="btn btn-success ml-1" value="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}"
+              id="butsave" [disabled]="!doc.valid" style="width: 120px" />
+            <input name="close" class="btn btn-light" value="انصراف" (click)="closeDialog()" style="width: 120px" />
           </div>
         </div>
       </form>
     </ng-template>
   </p-dialog>
+
 </p-card>
