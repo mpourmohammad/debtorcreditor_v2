@@ -10,7 +10,18 @@ export class ApiService {
    * Fetches a list of users from a mock API endpoint.
    * @returns {Promise<any>} A promise that resolves to the user data returned from the API.
    */
-  getUsers() {
+  getAllUsers() {
+    return fetch(environment.urlapi + 'Users')
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+
+  getTransactions() {
     return fetch(environment.urlapi + 'Transactions')
       .then((response) => response.json())
       .then((data) => {

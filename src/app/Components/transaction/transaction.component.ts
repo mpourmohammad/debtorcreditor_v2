@@ -30,6 +30,7 @@ export class TransactionComponent {
   cols!: any[];
   sumDebtor!: any;
   sumCreditor!: any;
+  AllUsers!: Users[];
 
   constructor(
     private apiService: ApiService,
@@ -56,7 +57,16 @@ export class TransactionComponent {
   ngOnInit() {
     this.transaction = new Transaction();
 
-    
+    // getAllUsers
+    this.apiService.getAllUsers().then(data => {
+      debugger;
+      if (data !== undefined) {
+        if (data.length !== 0) {
+          this.AllUsers = data;
+        }
+      }
+    });
+
     this.cols = [
       { field: 'id', header: 'شناسه تراکنش' },
       { field: 'amount', header: 'مبلغ' },
@@ -70,7 +80,7 @@ export class TransactionComponent {
       { field: 'users', header: 'کاربر' },
     ];
 
-    this.apiService.getUsers().then((data) => {
+    this.apiService.getTransactions().then((data) => {
       if (data !== undefined) {
         this.transactions = data;
         if (this.transactions.length !== 0) {
@@ -86,7 +96,6 @@ export class TransactionComponent {
       }
     });
   }
-
 
   filter() { }
   onSubmit(a: any) { }

@@ -94,6 +94,17 @@
               [(ngModel)]="transaction.amount" />
           </div>
 
+          <div class="col-md-6">
+            <label for="userId">کاربر</label>
+            <select class="form-control" id="userId" formControlName="userId" [(ngModel)]="transaction.userId"
+              #mySelect>
+              <option value=""></option>
+              <option *ngFor="let users of AllUsers" value="{{ users.id }}">
+                {{ users.fullNames }}
+              </option>
+            </select>
+          </div>
+
           <!-- توضیحات -->
           <div class="col-md-6">
             <label for="description">توضیحات</label>
@@ -129,25 +140,7 @@
             </div>
           </div>
 
-          <!-- <div class="col-md-6">
-          <label for="ProvinceCode">استان محل صدور شناسنامه</label>
-          <select
-            class="form-control"
-            id="ProvinceCode"
-            formControlName="ProvinceCode"
-            [(ngModel)]="transaction.ProvinceCode"
-            #mySelect
-            (change)="setCity(mySelect.value)"
-          >
-            <option value=""></option>
-            <option
-              *ngFor="let province of AllProvince"
-              value="{{ province.Code }}"
-            >
-              {{ province.Name }}
-            </option>
-          </select>
-        </div> -->
+
 
 
           <div class="col-md-6">
