@@ -81,38 +81,52 @@
 
 
   <!-- Add Update -->
-  <p-dialog [(visible)]="haghighiDialog" [style]="{ width: '70%', direction: 'rtl' }"
-    header="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}" [modal]="true" styleClass="p-fluid">
+  <p-dialog [(visible)]="transactionDialog" [style]="{ width: '70%', direction: 'rtl' }" header="ثبت" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <form autocomplete="off" [formGroup]="checkoutForm" id="add_haghighiPerson" name="add_haghighiPerson"
+      <form autocomplete="off" [formGroup]="checkoutForm" id="add_transaction" name="add_transaction"
         (ngSubmit)="onSubmit($event)" #doc="ngForm">
         <div class="row col-md-12">
           <!-- مبلغ -->
           <div class="col-md-6">
-            <label for="FirstName">مبلغ</label>
+            <label for="amount">مبلغ</label>
             <input type="text" pInputText id="amount" maxlength="40" formControlName="amount"
-              [(ngModel)]="haghighiPerson.amount" />
+              [(ngModel)]="transaction.amount" />
           </div>
 
           <!-- توضیحات -->
           <div class="col-md-6">
-            <label for="price">توضیحات</label>
+            <label for="description">توضیحات</label>
             <input type="text" pInputText id="description" maxlength="40" formControlName="description"
-              [(ngModel)]="haghighiPerson.description" />
+              [(ngModel)]="transaction.description" />
           </div>
 
           <!-- وضعیت پرداخت -->
           <div class="col-md-6">
-            <label for="description">وضعیت پرداخت</label>
-            <input type="text" pInputText id="created_Date" maxlength="40" formControlName="created_Date"
-              [(ngModel)]="haghighiPerson.created_Date" />
+            <label for="isDebtor">وضعیت پرداخت</label>
+            <input type="text" pInputText id="isDebtor" maxlength="40" formControlName="isDebtor"
+              [(ngModel)]="transaction.isDebtor" />
           </div>
 
           <!-- وضعیت بدهکاری -->
           <div class="col-md-6">
             <label for="isDebtor">وضعیت بدهکاری</label>
             <input type="text" pInputText id="isDebtor" maxlength="20" formControlName="isDebtor"
-              [(ngModel)]="haghighiPerson.isDebtor" />
+              [(ngModel)]="transaction.isDebtor" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="transaction_Date">تاریخ تراکنش</label>
+            <div class="row col-md-12">
+              <div class="col-md-11">
+                <input matInput pInputText id="transaction_Date" formControlName="transaction_Date"
+                  [(ngModel)]="transaction.transaction_Date" [matDatepicker]="picker1" placeholder="تاریخ تراکنش" />
+              </div>
+              <div class="col-md-1">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </div>
+            </div>
           </div>
 
           <!-- <div class="col-md-6">
@@ -121,7 +135,7 @@
             class="form-control"
             id="ProvinceCode"
             formControlName="ProvinceCode"
-            [(ngModel)]="haghighiPerson.ProvinceCode"
+            [(ngModel)]="transaction.ProvinceCode"
             #mySelect
             (change)="setCity(mySelect.value)"
           >
@@ -140,20 +154,20 @@
             <label for="isClearing">
               تسویه شده</label>
             <input type="text" pInputText id="isClearing" maxlength="15" formControlName="isClearing"
-              [(ngModel)]="haghighiPerson.isClearing" />
+              [(ngModel)]="transaction.isClearing" />
           </div>
 
           <!-- کاربر -->
           <div class="col-md-6">
             <label for="userId">کاربر</label>
             <input type="text" pInputText id="userId" maxlength="20" formControlName="userId"
-              [(ngModel)]="haghighiPerson.userId" />
+              [(ngModel)]="transaction.userId" />
           </div>
 
           <div class="col-md-12 text-center m-1 p-1">
-            <input type="submit" name="save" class="btn btn-success ml-1" value="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}"
-              id="butsave" [disabled]="!doc.valid" style="width: 120px" />
-            <input name="close" class="btn btn-light" value="انصراف" (click)="closeDialog()" style="width: 120px" />
+            <input type="submit" name="save" class="btn btn-success ml-1" value="ثبت" id="butsave"
+              [disabled]="!doc.valid" style="width: 120px" />
+            <input name="close" class="btn btn-light" value="انصراف" style="width: 120px" />
           </div>
         </div>
       </form>

@@ -5,17 +5,15 @@ import { CommonModule } from '@angular/common';
 import { Transaction } from '../../Models/Transaction';
 import { AppModule } from '../../app.module';
 import { ApiService } from '../../Services/api.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Users } from '../../Models/Users';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction',
   standalone: true,
-  imports: [TableModule, DialogModule, ButtonModule, InputTextModule, CommonModule, AppModule],
+  imports: [AppModule],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.scss',
 })
@@ -23,33 +21,11 @@ export class TransactionComponent {
 
   checkoutForm!: FormGroup;
   checkoutFormDel!: FormGroup;
-  haghighiDialog!: boolean;
-
-  hideFilter = true;
-
-  haghighiDialogDelete: boolean = false;
-
-  btnUpdate: boolean = false;
-
-  haghighiPersons!: Transaction[];
-  haghighiPerson!: Transaction;
-  selecthaghighiPersons!: Transaction[];
-
-  disabled = true;
-  submitted: boolean = false;
-  StatusColeMeli: boolean = true;
-  StatusColeMeliRepeat: boolean = true;
-
-
-
-  getUsers!: Users[];
-  getRoles!: Users[];
-
-  visible: boolean = false;
+  transactionDialog!: boolean;
 
   transactions!: Transaction[];
   transaction!: Transaction;
-  selectGetCalcs!: Transaction[];
+  selecttransactions!: Transaction[];
 
   cols!: any[];
   sumDebtor!: any;
@@ -63,25 +39,12 @@ export class TransactionComponent {
     private router: Router
   ) {
     this.checkoutForm = this.formBuilder.group({
-      NationalCode: ['', [Validators.minLength(10), Validators.maxLength(10)]],
-      // Validators.pattern(/^-?(0|[1-9]\d*)?$/)]
-      FirstName: ['', [Validators.required, Validators.maxLength(40)]],
-      FamilyName: ['', [Validators.required, Validators.maxLength(40)]],
-      BirthDate: ['', [Validators.required]],
-      FatherName: ['', [Validators.required, Validators.maxLength(40)]],
-      ShomarehShenasnameh: ['', [Validators.required, Validators.maxLength(20)]],
-      MahalSodoorShenasnamehId: ['', [Validators.required]],
-      SeriShenasnameh: ['', [Validators.required, Validators.maxLength(15)]],
-      SerialShenasnameh: ['', [Validators.required, Validators.maxLength(20)]],
-      ShomarehMobile: ['', Validators.maxLength(50)],
-
-      CityId: [''],
-      ProvinceId: [''],
-      ProvinceCode: ['', [Validators.required]]
-
-    });
-    this.checkoutFormDel = this.formBuilder.group({
-      PersonId: ['']
+      amount: ['', Validators.required],
+      description: ['', Validators.required],
+      isDebtor: ['', Validators.required],
+      transaction_Date: ['', Validators.required],
+      isClearing: ['', Validators.required],
+      userId: ['', Validators.required]
     });
   }
   ngAfterViewInit() {
@@ -91,7 +54,9 @@ export class TransactionComponent {
     }
   }
   ngOnInit() {
+    this.transaction = new Transaction();
 
+    
     this.cols = [
       { field: 'id', header: 'شناسه تراکنش' },
       { field: 'amount', header: 'مبلغ' },
@@ -122,21 +87,13 @@ export class TransactionComponent {
     });
   }
 
-  onFilter(event: Event) {
-    const inputValue = (event.target as HTMLInputElement).value;
-  }
+
   filter() { }
   onSubmit(a: any) { }
 
   showDialog() {
-    this.haghighiDialog = true;
+    this.transactionDialog = true;
   }
-
-  closeDialog() {
-    this.visible = false;
-  }
-
   addUser() {
-
   }
 }
