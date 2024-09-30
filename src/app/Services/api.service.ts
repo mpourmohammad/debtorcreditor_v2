@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
+import { Transactions } from '../Models/Transaction';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,24 @@ export class ApiService {
       .catch((error) => {
         console.error;
       });
+  }
+
+  addTransactions(Transactions: Transactions) {
+    debugger;
+    return fetch(environment.urlapi + 'Transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Transactions),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+
   }
 }

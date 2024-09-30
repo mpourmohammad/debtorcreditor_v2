@@ -90,8 +90,8 @@
           <!-- مبلغ -->
           <div class="col-md-6">
             <label for="amount">مبلغ</label>
-            <input type="text" pInputText id="amount" maxlength="40" formControlName="amount"
-              [(ngModel)]="transaction.amount" />
+            <p-inputNumber class="styleInputnumber" type="text" pInputText id="amount" maxlength="40"
+              formControlName="amount" [(ngModel)]="transaction.amount" />
           </div>
 
           <div class="col-md-6">
@@ -112,20 +112,46 @@
               [(ngModel)]="transaction.description" />
           </div>
 
-          <!-- وضعیت پرداخت -->
-          <div class="col-md-6">
-            <label for="isDebtor">وضعیت پرداخت</label>
-            <input type="text" pInputText id="isDebtor" maxlength="40" formControlName="isDebtor"
-              [(ngModel)]="transaction.isDebtor" />
-          </div>
-
           <!-- وضعیت بدهکاری -->
           <div class="col-md-6">
-            <label for="isDebtor">وضعیت بدهکاری</label>
-            <input type="text" pInputText id="isDebtor" maxlength="20" formControlName="isDebtor"
-              [(ngModel)]="transaction.isDebtor" />
+            <label for="وضعیت">وضعیت بدهکاری : </label>
+            <div class="mt-2">
+              <p-radioButton name="isDebtor" value="1" [(ngModel)]="transaction.isDebtor" formControlName="isDebtor"
+                inputId="isDebtor_true" />
+              &nbsp;
+              <label for="isDebtor_true" class="ml-2">
+                پرداخت شده
+              </label>
+              &nbsp;
+              <p-radioButton name="isDebtor" value="0" [(ngModel)]="transaction.isDebtor" formControlName="isDebtor"
+                inputId="isDebtor_false" />
+              &nbsp;
+              <label for="isDebtor_false" class="ml-2">
+                پرداخت نشده
+              </label>
+            </div>
           </div>
 
+          <!-- وضعیت تسویه -->
+          <div class="col-md-6">
+            <label for="وضعیت">وضعیت تسویه : </label>
+            <div class="mt-2">
+
+              <p-radioButton name="isClearing" value="1" [(ngModel)]="transaction.isClearing"
+                formControlName="isClearing" inputId="isClearing_true" />
+              &nbsp;
+              <label for="isClearing_true" class="ml-2">
+                تسویه شده
+              </label>
+              &nbsp;
+              <p-radioButton name="isClearing" value="0" [(ngModel)]="transaction.isClearing"
+                formControlName="isClearing" inputId="isClearing_false" />
+              &nbsp;
+              <label for="isClearing_false" class="ml-2">
+                تسویه نشده
+              </label>
+            </div>
+          </div>
           <div class="col-md-6">
             <label for="transaction_Date">تاریخ تراکنش</label>
             <div class="row col-md-12">
@@ -138,23 +164,6 @@
                 <mat-datepicker #picker1></mat-datepicker>
               </div>
             </div>
-          </div>
-
-
-
-
-          <div class="col-md-6">
-            <label for="isClearing">
-              تسویه شده</label>
-            <input type="text" pInputText id="isClearing" maxlength="15" formControlName="isClearing"
-              [(ngModel)]="transaction.isClearing" />
-          </div>
-
-          <!-- کاربر -->
-          <div class="col-md-6">
-            <label for="userId">کاربر</label>
-            <input type="text" pInputText id="userId" maxlength="20" formControlName="userId"
-              [(ngModel)]="transaction.userId" />
           </div>
 
           <div class="col-md-12 text-center m-1 p-1">

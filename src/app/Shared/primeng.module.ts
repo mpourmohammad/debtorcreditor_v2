@@ -25,7 +25,6 @@ import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
 @NgModule({
   declarations: [],
   exports: [
