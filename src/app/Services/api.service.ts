@@ -4,7 +4,7 @@ import { Transactions } from '../Models/Transaction';
 
 @Injectable({
   providedIn: 'root',
-})
+}) 
 export class ApiService {
   constructor() { }
   /**
