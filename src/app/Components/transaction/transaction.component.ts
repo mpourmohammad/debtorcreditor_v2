@@ -5,7 +5,12 @@ import { CommonModule } from '@angular/common';
 import { Transaction } from '../../Models/Transaction';
 import { AppModule } from '../../app.module';
 import { ApiService } from '../../Services/api.service';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from '@angular/forms';
 import { Users } from '../../Models/Users';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -18,7 +23,6 @@ import { Router } from '@angular/router';
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent {
-
   checkoutForm!: FormGroup;
   checkoutFormDel!: FormGroup;
   transactionDialog!: boolean;
@@ -31,6 +35,9 @@ export class TransactionComponent {
   sumDebtor!: any;
   sumCreditor!: any;
   AllUsers!: Users[];
+
+  UserGrid!: Users;
+
 
   constructor(
     private apiService: ApiService,
@@ -45,21 +52,15 @@ export class TransactionComponent {
       isDebtor: ['', Validators.required],
       transaction_Date: ['', Validators.required],
       isClearing: ['', Validators.required],
-      userId: ['', Validators.required]
+      userId: ['', Validators.required],
     });
   }
-  ngAfterViewInit() {
-    if (typeof document !== 'undefined') {
-      // Your code that requires document
-      document.body.style.overflow = 'hidden';
-    }
-  }
+
   ngOnInit() {
     this.transaction = new Transaction();
 
     // getAllUsers
-    this.apiService.getAllUsers().then(data => {
-      debugger;
+    this.apiService.getAllUsers().then((data) => {
       if (data !== undefined) {
         if (data.length !== 0) {
           this.AllUsers = data;
@@ -83,6 +84,7 @@ export class TransactionComponent {
     this.apiService.getTransactions().then((data) => {
       if (data !== undefined) {
         this.transactions = data;
+        debugger
         if (this.transactions.length !== 0) {
           // Sum Amount
           this.sumDebtor = this.transactions
@@ -97,12 +99,11 @@ export class TransactionComponent {
     });
   }
 
-  filter() { }
-  onSubmit(a: any) { }
+  filter() {}
+  onSubmit(a: any) {}
 
   showDialog() {
     this.transactionDialog = true;
   }
-  addUser() {
-  }
+  addUser() {}
 }
