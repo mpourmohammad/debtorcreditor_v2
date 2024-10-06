@@ -1,8 +1,7 @@
 import { Users } from './Users';
 
-export class Transaction {
+export class Transactions {
   id: any;
-  
   amount: any;            // مبلغ
   description: any;       // توضیحات
   transaction_Date: any;  // تاریخ

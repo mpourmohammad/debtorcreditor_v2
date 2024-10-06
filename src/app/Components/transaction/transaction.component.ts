@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
-import { CommonModule } from '@angular/common';
-import { Transaction } from '../../Models/Transaction';
+import { Transactions } from '../../Models/Transaction';
 import { AppModule } from '../../app.module';
 import { ApiService } from '../../Services/api.service';
 import {
@@ -27,13 +24,15 @@ export class TransactionComponent {
   checkoutFormDel!: FormGroup;
   transactionDialog!: boolean;
 
-  transactions!: Transaction[];
-  transaction!: Transaction;
-  selecttransactions!: Transaction[];
+  transactions!: Transactions[];
+  transaction!: Transactions;
+  selecttransactions!: Transactions[];
 
   cols!: any[];
   sumDebtor!: any;
   sumCreditor!: any;
+
+  btnUpdate: boolean = false;
   AllUsers!: Users[];
 
   UserGrid!: Users;
@@ -55,12 +54,19 @@ export class TransactionComponent {
       userId: ['', Validators.required],
     });
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
   ngOnInit() {
-    this.transaction = new Transaction();
+    this.transaction = new Transactions();
 
     // getAllUsers
+<<<<<<< HEAD
     this.apiService.getAllUsers().then((data) => {
+=======
+    this.apiService.getAllUsers().then(data => {
+>>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
       if (data !== undefined) {
         if (data.length !== 0) {
           this.AllUsers = data;
@@ -99,11 +105,46 @@ export class TransactionComponent {
     });
   }
 
+<<<<<<< HEAD
   filter() {}
   onSubmit(a: any) {}
+=======
+  filter() { }
+  onSubmit(event: Event) {
+    const transaction = this.checkoutForm.value;
+
+    if (this.btnUpdate === true) {
+      this.updateTransactions(transaction);
+    } else {
+      this.addTransactions(transaction);
+    }
+    this.checkoutForm.reset();
+  }
+  updateTransactions(transaction: any) {
+    throw new Error('Method not implemented.');
+  }
+>>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
 
   showDialog() {
+    this.transaction = new Transactions();
     this.transactionDialog = true;
   }
+<<<<<<< HEAD
   addUser() {}
+=======
+
+  addTransactions(transactions: Transactions) {
+    this.apiService.addTransactions(transactions).then(data => {
+      if (data !== undefined) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'اطلاعات تراکنش با موفقیت ثبت شد',
+          detail: 'اطلاعات تراکنش با موفقیت ثبت شد',
+          life: 3000,
+        });
+        this.router.navigate(['/']);
+      }
+    });
+  }
+>>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
 }
