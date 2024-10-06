@@ -54,19 +54,11 @@ export class TransactionComponent {
       userId: ['', Validators.required],
     });
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
   ngOnInit() {
     this.transaction = new Transactions();
 
     // getAllUsers
-<<<<<<< HEAD
     this.apiService.getAllUsers().then((data) => {
-=======
-    this.apiService.getAllUsers().then(data => {
->>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
       if (data !== undefined) {
         if (data.length !== 0) {
           this.AllUsers = data;
@@ -105,46 +97,12 @@ export class TransactionComponent {
     });
   }
 
-<<<<<<< HEAD
   filter() {}
   onSubmit(a: any) {}
-=======
-  filter() { }
-  onSubmit(event: Event) {
-    const transaction = this.checkoutForm.value;
-
-    if (this.btnUpdate === true) {
-      this.updateTransactions(transaction);
-    } else {
-      this.addTransactions(transaction);
-    }
-    this.checkoutForm.reset();
-  }
-  updateTransactions(transaction: any) {
-    throw new Error('Method not implemented.');
-  }
->>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
 
   showDialog() {
     this.transaction = new Transactions();
     this.transactionDialog = true;
   }
-<<<<<<< HEAD
   addUser() {}
-=======
-
-  addTransactions(transactions: Transactions) {
-    this.apiService.addTransactions(transactions).then(data => {
-      if (data !== undefined) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'اطلاعات تراکنش با موفقیت ثبت شد',
-          detail: 'اطلاعات تراکنش با موفقیت ثبت شد',
-          life: 3000,
-        });
-        this.router.navigate(['/']);
-      }
-    });
-  }
->>>>>>> 611a19cc8d1a3071c4811543c7a250627a314064
 }
