@@ -87,7 +87,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
       <form autocomplete="off" [formGroup]="checkoutForm" id="add_transaction" name="add_transaction"
-        (ngSubmit)="onSubmit($event)" #doc="ngForm">
+        (ngSubmit)="onSubmit()" #doc="ngForm">
         <div class="row col-md-12">
           <!-- مبلغ -->
           <div class="col-md-6">

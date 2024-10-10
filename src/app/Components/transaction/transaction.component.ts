@@ -11,6 +11,7 @@ import {
 import { Users } from '../../Models/Users';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import moment from 'jalali-moment';
 
 @Component({
   selector: 'app-transaction',
@@ -36,7 +37,6 @@ export class TransactionComponent {
   AllUsers!: Users[];
 
   UserGrid!: Users;
-
 
   constructor(
     private apiService: ApiService,
@@ -78,11 +78,14 @@ export class TransactionComponent {
       { field: 'userId', header: 'شناسه کاربر' },
       { field: 'users', header: 'کاربر' },
     ];
+    this.get_Transactions();
+  }
 
+  get_Transactions() {
     this.apiService.getTransactions().then((data) => {
       if (data !== undefined) {
         this.transactions = data;
-        debugger
+        debugger;
         if (this.transactions.length !== 0) {
           // Sum Amount
           this.sumDebtor = this.transactions
@@ -98,7 +101,43 @@ export class TransactionComponent {
   }
 
   filter() {}
-  onSubmit(a: any) {}
+  onSubmit() {
+    const transaction = this.checkoutForm.value;
+    if (this.btnUpdate === true) this.update_Transaction(transaction);
+    else this.add_Transaction(transaction);
+  }
+  add_Transaction(transaction: any) {
+    transaction.InsertedDate = moment(transaction.InsertedDate, 'YYYY-MM-DD')
+      .locale('cs')
+      .format('YYYY-MM-DD');
+    this.apiService.addTransactions(transaction).then(
+      (result) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'انجام شد',
+          detail: 'حساب شخص مورد نظر ثبت شد',
+          life: 6000,
+        });
+        this.apiService
+          .getTransactions()
+          .then((res) => (this.transactions = res));
+        this.get_Transactions();
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'انجام نشد',
+          detail: err.ErrorMessages,
+          life: 6000,
+        });
+      }
+    );
+    this.transactionDialog = false;
+    this.transaction = new Transactions();
+  }
+  update_Transaction(transaction: any) {
+    throw new Error('Method not implemented.');
+  }
 
   showDialog() {
     this.transaction = new Transactions();
