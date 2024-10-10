@@ -29,6 +29,8 @@ export class TransactionComponent {
   transaction!: Transactions;
   selecttransactions!: Transactions[];
 
+  hideFilter = false;
+
   cols!: any[];
   sumDebtor!: any;
   sumCreditor!: any;
@@ -37,6 +39,7 @@ export class TransactionComponent {
   AllUsers!: Users[];
 
   UserGrid!: Users;
+  event: any;
 
   constructor(
     private apiService: ApiService,
@@ -66,18 +69,6 @@ export class TransactionComponent {
       }
     });
 
-    this.cols = [
-      { field: 'id', header: 'شناسه تراکنش' },
-      { field: 'amount', header: 'مبلغ' },
-      { field: 'description', header: 'توضیحات تکمیلی' },
-      { field: 'transaction_Date', header: 'تاریخ تراکنش' },
-      { field: 'isClearing', header: 'تسویه شده' },
-      { field: 'isDebtor', header: 'بدهکار یا بستانکار' },
-      { field: 'created_Date', header: 'تاریخ ثبت تراکنش' },
-      { field: 'updated_Date', header: 'تاریخ آخرین به روز رسانی ترانکش' },
-      { field: 'userId', header: 'شناسه کاربر' },
-      { field: 'users', header: 'کاربر' },
-    ];
     this.get_Transactions();
   }
 
@@ -100,16 +91,29 @@ export class TransactionComponent {
     });
   }
 
-  filter() {}
+  filter() {
+    if (this.hideFilter === true) this.hideFilter = false;
+    else this.hideFilter = true;
+  }
   onSubmit() {
     const transaction = this.checkoutForm.value;
     if (this.btnUpdate === true) this.update_Transaction(transaction);
     else this.add_Transaction(transaction);
   }
   add_Transaction(transaction: any) {
+    transaction.transaction_Date = moment(
+      transaction.transaction_Date,
+      'YYYY-MM-DD'
+    )
+      .locale('cs')
+      .format('YYYY-MM-DD');
     transaction.InsertedDate = moment(transaction.InsertedDate, 'YYYY-MM-DD')
       .locale('cs')
       .format('YYYY-MM-DD');
+    transaction.updated_Date = moment(transaction.updated_Date, 'YYYY-MM-DD')
+      .locale('cs')
+      .format('YYYY-MM-DD');
+
     this.apiService.addTransactions(transaction).then(
       (result) => {
         this.messageService.add({
@@ -135,13 +139,48 @@ export class TransactionComponent {
     this.transactionDialog = false;
     this.transaction = new Transactions();
   }
+
+  editTrans(edieTransactions: Transactions) {
+    //this.transaction = new Transactions();
+    this.btnUpdate = true;
+    this.transaction = { ...edieTransactions };
+    this.transactionDialog = true;
+  }
+  deleteTrans(edieTransactions: Transactions) {}
   update_Transaction(transaction: any) {
-    throw new Error('Method not implemented.');
+    debugger;
+    transaction.transaction_Date = moment(
+      transaction.transaction_Date,
+      'YYYY-MM-DD'
+    )
+      .locale('cs')
+      .format('YYYY-MM-DD');
+    transaction.InsertedDate = moment(transaction.InsertedDate, 'YYYY-MM-DD')
+      .locale('cs')
+      .format('YYYY-MM-DD');
+    transaction.updated_Date = moment(transaction.updated_Date, 'YYYY-MM-DD')
+      .locale('cs')
+      .format('YYYY-MM-DD');
+    this.apiService.updateTransactions(transaction).then((result) => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'انجام شد',
+        detail: 'حساب شخص مورد نظر ثبت شد',
+        life: 6000,
+      });
+      this.apiService
+        .getTransactions()
+        .then((res) => (this.transactions = res));
+      this.get_Transactions();
+    });
   }
 
   showDialog() {
     this.transaction = new Transactions();
     this.transactionDialog = true;
   }
-  addUser() {}
+  closeDialog(){
+    this.transactionDialog = false;
+    this.transaction = new Transactions();
+  }
 }

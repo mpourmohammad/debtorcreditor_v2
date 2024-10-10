@@ -6,7 +6,7 @@ import { Transactions } from '../Models/Transaction';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor() { }
+  constructor() {}
   /**
    * Fetches a list of users from a mock API endpoint.
    * @returns {Promise<any>} A promise that resolves to the user data returned from the API.
@@ -49,6 +49,22 @@ export class ApiService {
       .catch((error) => {
         console.error;
       });
+  }
 
+  updateTransactions(Transactions: Transactions) {
+    return fetch(environment.urlapi + 'Transactions', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Transactions),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
   }
 }
