@@ -126,7 +126,7 @@ export class TransactionComponent {
           summary: 'انجام نشد',
           detail: err.ErrorMessages,
           life: 6000,
-        });
+        });    
       }
     );
     this.transactionDialog = false;
