@@ -78,11 +78,12 @@ export class TransactionComponent {
         this.transactions = data;
         debugger;
         if (this.transactions.length !== 0) {
-          // Sum Amount
+
+          // Sum Debtor
           this.sumDebtor = this.transactions
             .filter((item) => item.isDebtor !== 0)
             .reduce((sum, current) => sum + current.amount, 0);
-
+          // Sum Creditor
           this.sumCreditor = this.transactions
             .filter((item) => item.isDebtor === 0)
             .reduce((sum, current) => sum + current.amount, 0);
@@ -100,20 +101,12 @@ export class TransactionComponent {
     if (this.btnUpdate === true) this.update_Transaction(transaction);
     else this.add_Transaction(transaction);
   }
-  add_Transaction(transaction: any) {
-    transaction.transaction_Date = moment(
-      transaction.transaction_Date,
-      'YYYY-MM-DD'
-    )
-      .locale('cs')
-      .format('YYYY-MM-DD');
-    transaction.InsertedDate = moment(transaction.InsertedDate, 'YYYY-MM-DD')
-      .locale('cs')
-      .format('YYYY-MM-DD');
-    transaction.updated_Date = moment(transaction.updated_Date, 'YYYY-MM-DD')
-      .locale('cs')
-      .format('YYYY-MM-DD');
 
+  add_Transaction(transaction: any) {
+    debugger
+    transaction.transaction_Date = moment(transaction.transaction_Date, 'YYYY-MM-DD').locale('cs').format('YYYY-MM-DD');
+    // transaction.InsertedDate = moment(new Date(), 'YYYY-MM-DD').locale('cs').format('YYYY-MM-DD');
+    // transaction.updated_Date = moment(new Date(), 'YYYY-MM-DD').locale('cs').format('YYYY-MM-DD');
     this.apiService.addTransactions(transaction).then(
       (result) => {
         this.messageService.add({
@@ -146,21 +139,12 @@ export class TransactionComponent {
     this.transaction = { ...edieTransactions };
     this.transactionDialog = true;
   }
-  deleteTrans(edieTransactions: Transactions) {}
+  deleteTrans(edieTransactions: Transactions) { }
+
   update_Transaction(transaction: any) {
     debugger;
-    transaction.transaction_Date = moment(
-      transaction.transaction_Date,
-      'YYYY-MM-DD'
-    )
-      .locale('cs')
-      .format('YYYY-MM-DD');
-    transaction.InsertedDate = moment(transaction.InsertedDate, 'YYYY-MM-DD')
-      .locale('cs')
-      .format('YYYY-MM-DD');
-    transaction.updated_Date = moment(transaction.updated_Date, 'YYYY-MM-DD')
-      .locale('cs')
-      .format('YYYY-MM-DD');
+    transaction.id = this.transaction.id;
+    transaction.transaction_Date = moment(transaction.transaction_Date, 'YYYY-MM-DD').locale('cs').format('YYYY-MM-DD');
     this.apiService.updateTransactions(transaction).then((result) => {
       this.messageService.add({
         severity: 'success',
@@ -171,6 +155,7 @@ export class TransactionComponent {
       this.apiService
         .getTransactions()
         .then((res) => (this.transactions = res));
+      this.closeDialog();
       this.get_Transactions();
     });
   }
@@ -179,8 +164,12 @@ export class TransactionComponent {
     this.transaction = new Transactions();
     this.transactionDialog = true;
   }
-  closeDialog(){
+  closeDialog() {
     this.transactionDialog = false;
     this.transaction = new Transactions();
   }
 }
+function getDate(): moment.MomentInput | undefined {
+  throw new Error('Function not implemented.');
+}
+

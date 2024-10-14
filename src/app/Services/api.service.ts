@@ -52,7 +52,8 @@ export class ApiService {
   }
 
   updateTransactions(Transactions: Transactions) {
-    return fetch(environment.urlapi + 'Transactions', {
+    console.log(Transactions);
+    return fetch(environment.urlapi + 'Transactions/' + Transactions.id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
