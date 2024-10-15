@@ -16,58 +16,36 @@
       ) تومان
     </p>
   </p-toolbar>
-  <p-table
-    #dt1
-    [value]="transactions"
-    [globalFilterFields]="[
+
+  <p-table #dt1 [value]="transactions" [globalFilterFields]="[
+
       'id',
       'amount',
       'description',
       'transaction_Date',
       'isClearing'
-    ]"
-    selectionMode="single"
-    dataKey="id"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    [rows]="10"
-    [paginator]="true"
-    stateStorage="session"
-    stateKey="statedemo-session"
-  >
+    ]" selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="10" [paginator]="true"
+    stateStorage="session" stateKey="statedemo-session">
     <ng-template pTemplate="header" let-columns>
       <tr [hidden]="hideFilter">
-        <th pSortableColumn="id">
-          شناسه تراکنش <p-sortIcon field="id"></p-sortIcon>
-        </th>
-        <th pSortableColumn="users">
-          کاربر<p-sortIcon field="users"></p-sortIcon>
-        </th>
-        <th pSortableColumn="amount">
-          مبلغ <p-sortIcon field="amount"></p-sortIcon>
-        </th>
-        <th pSortableColumn="description">
-          توضیحات تکمیلی <p-sortIcon field="description"></p-sortIcon>
-        </th>
-        <th pSortableColumn="transaction_Date">
-          تاریخ تراکنش <p-sortIcon field="transaction_Date"></p-sortIcon>
-        </th>
-        <th pSortableColumn="isClearing">
-          تسویه شده <p-sortIcon field="isClearing"></p-sortIcon>
-        </th>
-        <th pSortableColumn="isDebtor">
-          بدهکار یا بستانکار <p-sortIcon field="isDebtor"></p-sortIcon>
-        </th>
-        <th pSortableColumn="created_Date">
-          تاریخ ثبت تراکنش <p-sortIcon field="created_Date"></p-sortIcon>
-        </th>
-        <th pSortableColumn="updated_Date">
-          تاریخ آخرین به روز رسانی ترانکش
-          <p-sortIcon field="updated_Date"></p-sortIcon>
-        </th>
+        <!-- <input pInputText type="text" (input)="dt1.filterGlobal(getValue($event),'contains')" /> -->
+        <th pSortableColumn="id"> شناسه تراکنش <p-sortIcon field="id"></p-sortIcon> </th>
+        <th pSortableColumn="users"> کاربر<p-sortIcon field="users"></p-sortIcon> </th>
+        <th pSortableColumn="amount"> مبلغ <p-sortIcon field="amount"></p-sortIcon> </th>
+        <th pSortableColumn="description"> توضیحات تکمیلی <p-sortIcon field="description"></p-sortIcon> </th>
+        <th pSortableColumn="transaction_Date"> تاریخ تراکنش <p-sortIcon field="transaction_Date"></p-sortIcon> </th>
+        <th pSortableColumn="isClearing"> تسویه شده <p-sortIcon field="isClearing"></p-sortIcon> </th>
+        <th pSortableColumn="isDebtor"> بدهکار یا بستانکار <p-sortIcon field="isDebtor"></p-sortIcon> </th>
+        <th pSortableColumn="created_Date"> تاریخ ثبت تراکنش <p-sortIcon field="created_Date"></p-sortIcon> </th>
+        <th pSortableColumn="updated_Date"> تاریخ آخرین به روز رسانی ترانکش <p-sortIcon
+            field="updated_Date"></p-sortIcon> </th>
         <th>عملیات</th>
       </tr>
+
     </ng-template>
+
     <ng-template pTemplate="body" let-rowData let-columns="columns">
+
       <tr>
         <td>{{ rowData.id }}</td>
         <td>{{ rowData.users.fullNames }}</td>
@@ -75,30 +53,19 @@
         <td>{{ rowData.description }}</td>
         <td>{{ rowData.transaction_Date | jalali }}</td>
 
-        @if (rowData.isClearing) {
-        <td>پاک نشده</td>
-        } @else {
-        <td>پاک شده</td>
-        } @if (rowData.isDebtor) {
-        <td>بدهکار</td>
-        } @else {
-        <td>بستانکار</td>
-        }
+        <td *ngIf="rowData.isClearing">تسویه شده</td>
+        <td *ngIf="!rowData.isClearing">تسویه نشده</td>
+
+        <td *ngIf="rowData.isDebtor">بدهکار</td>
+        <td *ngIf="!rowData.isDebtor">بستانکار</td>
 
         <td>{{ rowData.created_Date | jalali }}</td>
         <td>{{ rowData.updated_Date | jalali }}</td>
         <td>
           <div>
-            <button
-              class="btn btn-primary pi pi-user-edit p-2 m-1"
-              title="ویرایش"
-              (click)="editTrans(rowData)"
-            ></button>
-            <button
-              class="btn btn-danger pi pi-times p-2 m-1"
-              title="حذف"
-              (click)="deleteTrans(rowData)"
-            ></button>
+            <button class="btn btn-primary pi pi-user-edit p-2 m-1" title="ویرایش"
+              (click)="editTrans(rowData)"></button>
+            <button class="btn btn-danger pi pi-times p-2 m-1" title="حذف" (click)="deleteTrans(rowData)"></button>
           </div>
         </td>
       </tr>
@@ -106,46 +73,23 @@
   </p-table>
 
   <!-- Add Update -->
-  <p-dialog
-    [(visible)]="transactionDialog"
-    [style]="{ width: '70%', direction: 'rtl' }"
-    header="{{ btnUpdate ? 'ویرایش بستانکار بدهکار' : 'ثبت بستانکار بدهکار' }}"
-    [modal]="true"
-    styleClass="p-fluid"
-  >
+  <p-dialog [(visible)]="transactionDialog" [style]="{ width: '70%', direction: 'rtl' }"
+    header="{{ btnUpdate ? 'ویرایش بستانکار بدهکار' : 'ثبت بستانکار بدهکار' }}" [modal]="true" styleClass="p-fluid">
+
     <ng-template pTemplate="content">
-      <form
-        autocomplete="off"
-        [formGroup]="checkoutForm"
-        id="add_transaction"
-        name="add_transaction"
-        (ngSubmit)="onSubmit()"
-        #doc="ngForm"
-      >
+      <form autocomplete="off" [formGroup]="checkoutForm" id="add_transaction" name="add_transaction"
+        (ngSubmit)="onSubmit()" #doc="ngForm">
         <div class="row col-md-12">
-          <!-- مبلغ -->
           <div class="col-md-6">
             <label for="amount">مبلغ</label>
-            <p-inputNumber
-              class="styleInputnumber"
-              type="text"
-              pInputText
-              id="amount"
-              maxlength="40"
-              formControlName="amount"
-              [(ngModel)]="transaction.amount"
-            />
+            <p-inputNumber class="styleInputnumber" type="text" pInputText id="amount" maxlength="40"
+              formControlName="amount" [(ngModel)]="transaction.amount" />
           </div>
 
           <div class="col-md-6">
             <label for="userId">کاربر</label>
-            <select
-              class="form-control"
-              id="userId"
-              formControlName="userId"
-              [(ngModel)]="transaction.userId"
-              #mySelect
-            >
+            <select class="form-control" id="userId" formControlName="userId" [(ngModel)]="transaction.userId"
+              #mySelect>
               <option value=""></option>
               <option *ngFor="let users of AllUsers" value="{{ users.id }}">
                 {{ users.fullNames }}
@@ -153,40 +97,23 @@
             </select>
           </div>
 
-          <!-- توضیحات -->
           <div class="col-md-6">
             <label for="description">توضیحات</label>
-            <input
-              type="text"
-              pInputText
-              id="description"
-              maxlength="40"
-              formControlName="description"
-              [(ngModel)]="transaction.description"
-            />
+            <input type="text" pInputText id="description" maxlength="40" formControlName="description"
+              [(ngModel)]="transaction.description" />
           </div>
 
           <!-- وضعیت بدهکاری -->
           <div class="col-md-6">
             <label for="وضعیت">وضعیت بدهکاری : </label>
             <div class="mt-2">
-              <p-radioButton
-                name="isDebtor"
-                value="1"
-                [(ngModel)]="transaction.isDebtor"
-                formControlName="isDebtor"
-                inputId="isDebtor_true"
-              />
+              <p-radioButton name="isDebtor" value="1" [(ngModel)]="transaction.isDebtor" formControlName="isDebtor"
+                inputId="isDebtor_true" />
               &nbsp;
               <label for="isDebtor_true" class="ml-2"> پرداخت شده </label>
               &nbsp;
-              <p-radioButton
-                name="isDebtor"
-                value="0"
-                [(ngModel)]="transaction.isDebtor"
-                formControlName="isDebtor"
-                inputId="isDebtor_false"
-              />
+              <p-radioButton name="isDebtor" value="0" [(ngModel)]="transaction.isDebtor" formControlName="isDebtor"
+                inputId="isDebtor_false" />
               &nbsp;
               <label for="isDebtor_false" class="ml-2"> پرداخت نشده </label>
             </div>
@@ -196,68 +123,36 @@
           <div class="col-md-6">
             <label for="وضعیت">وضعیت تسویه : </label>
             <div class="mt-2">
-              <p-radioButton
-                name="isClearing"
-                value="1"
-                [(ngModel)]="transaction.isClearing"
-                formControlName="isClearing"
-                inputId="isClearing_true"
-              />
+              <p-radioButton name="isClearing" value="1" [(ngModel)]="transaction.isClearing"
+                formControlName="isClearing" inputId="isClearing_true" />
               &nbsp;
               <label for="isClearing_true" class="ml-2"> تسویه شده </label>
               &nbsp;
-              <p-radioButton
-                name="isClearing"
-                value="0"
-                [(ngModel)]="transaction.isClearing"
-                formControlName="isClearing"
-                inputId="isClearing_false"
-              />
+              <p-radioButton name="isClearing" value="0" [(ngModel)]="transaction.isClearing"
+                formControlName="isClearing" inputId="isClearing_false" />
               &nbsp;
               <label for="isClearing_false" class="ml-2"> تسویه نشده </label>
             </div>
           </div>
+
           <div class="col-md-6">
             <label for="transaction_Date">تاریخ تراکنش</label>
             <div class="row col-md-12">
               <div class="col-md-11">
-                <input
-                  matInput
-                  pInputText
-                  id="transaction_Date"
-                  formControlName="transaction_Date"
-                  [(ngModel)]="transaction.transaction_Date"
-                  [matDatepicker]="picker1"
-                  placeholder="تاریخ تراکنش"
-                />
+                <input matInput pInputText id="transaction_Date" formControlName="transaction_Date"
+                  [(ngModel)]="transaction.transaction_Date" [matDatepicker]="picker1" placeholder="تاریخ تراکنش" />
               </div>
               <div class="col-md-1">
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker1"
-                ></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </div>
             </div>
           </div>
 
           <div class="col-md-12 text-center m-1 p-1">
-            <input
-              type="submit"
-              name="save"
-              class="btn btn-success ml-1"
-              value="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}"
-              id="butsave"
-              [disabled]="!doc.valid"
-              style="width: 120px"
-            />
-            <input
-              name="close"
-              class="btn btn-light"
-              value="انصراف"
-              (click)="closeDialog()"
-              style="width: 120px"
-            />
+            <input type="submit" name="save" class="btn btn-success ml-1" value="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}"
+              id="butsave" [disabled]="!doc.valid" style="width: 120px" />
+            <input name="close" class="btn btn-light" value="انصراف" (click)="closeDialog()" style="width: 120px" />
           </div>
         </div>
       </form>

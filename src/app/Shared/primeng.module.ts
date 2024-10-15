@@ -37,7 +37,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     DropdownModule,
     ButtonModule,
     ToastModule,
-    InputTextModule,
     ProgressBarModule,
     FileUploadModule,
     ToolbarModule,
@@ -51,7 +50,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     SplitterModule,
     PanelModule,
     CardModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    InputTextModule
   ],
   imports: [CommonModule],
 })

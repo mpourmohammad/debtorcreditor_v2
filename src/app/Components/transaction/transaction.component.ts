@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { Transactions } from '../../Models/Transaction';
 import { AppModule } from '../../app.module';
 import { ApiService } from '../../Services/api.service';
+
 import {
   FormBuilder,
   FormGroup,
@@ -21,6 +22,8 @@ import moment from 'jalali-moment';
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent {
+[x: string]: any;
+
   checkoutForm!: FormGroup;
   checkoutFormDel!: FormGroup;
   transactionDialog!: boolean;
@@ -40,6 +43,9 @@ export class TransactionComponent {
 
   UserGrid!: Users;
   event: any;
+
+  firstName = input<string>();
+
 
   constructor(
     private apiService: ApiService,
@@ -70,6 +76,12 @@ export class TransactionComponent {
     });
 
     this.get_Transactions();
+  }
+
+  getValue(event: Event): string {
+    debugger;
+    const inputElement = event.target as HTMLInputElement;
+    return inputElement.value;
   }
 
   get_Transactions() {
@@ -126,7 +138,7 @@ export class TransactionComponent {
           summary: 'انجام نشد',
           detail: err.ErrorMessages,
           life: 6000,
-        });    
+        });
       }
     );
     this.transactionDialog = false;
