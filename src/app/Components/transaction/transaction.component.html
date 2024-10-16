@@ -28,7 +28,17 @@
     stateStorage="session" stateKey="statedemo-session">
     <ng-template pTemplate="header" let-columns>
       <tr [hidden]="hideFilter">
-        <!-- <input pInputText type="text" (input)="dt1.filterGlobal(getValue($event),'contains')" /> -->
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue($event)" /></th>
+      </tr>
+      <tr>
         <th pSortableColumn="id"> شناسه تراکنش <p-sortIcon field="id"></p-sortIcon> </th>
         <th pSortableColumn="users"> کاربر<p-sortIcon field="users"></p-sortIcon> </th>
         <th pSortableColumn="amount"> مبلغ <p-sortIcon field="amount"></p-sortIcon> </th>
