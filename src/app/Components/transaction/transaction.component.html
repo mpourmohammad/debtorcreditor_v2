@@ -28,15 +28,15 @@
     stateStorage="session" stateKey="statedemo-session">
     <ng-template pTemplate="header" let-columns>
       <tr [hidden]="hideFilter">
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
-        <th><input pInputText (input)="getValue($event)" /></th>
+        <th><input pInputText (input)="getValue('id',$event)" /></th>
+        <th><input pInputText (input)="getValue('users',$event)" /></th>
+        <th><input pInputText (input)="getValue('amount',$event)" /></th>
+        <th><input pInputText (input)="getValue('description',$event)" /></th>
+        <th><input pInputText (input)="getValue('transaction_Date',$event)" /></th>
+        <th><input pInputText (input)="getValue('isClearing',$event)" /></th>
+        <th><input pInputText (input)="getValue('isDebtor',$event)" /></th>
+        <th><input pInputText (input)="getValue('created_Date',$event)" /></th>
+        <th><input pInputText (input)="getValue('updated_Date',$event)" /></th>
       </tr>
       <tr>
         <th pSortableColumn="id"> شناسه تراکنش <p-sortIcon field="id"></p-sortIcon> </th>

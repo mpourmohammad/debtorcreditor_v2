@@ -22,7 +22,7 @@ import moment from 'jalali-moment';
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent {
-[x: string]: any;
+  [x: string]: any;
 
   checkoutForm!: FormGroup;
   checkoutFormDel!: FormGroup;
@@ -78,9 +78,13 @@ export class TransactionComponent {
     this.get_Transactions();
   }
 
-  getValue(event: Event): string {
+  getValue(nameField: string, event: Event): string {
     debugger;
     const inputElement = event.target as HTMLInputElement;
+
+    this.apiService.searchTransactions(nameField, inputElement.value).then((res) => {
+      this.transactions = res;
+    });
     return inputElement.value;
   }
 
