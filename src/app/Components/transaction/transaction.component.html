@@ -1,118 +1,84 @@
-<p-card header="سیستم بدهکار بستانکار ">
+<p-card header="سیستم بدهکار بستانکار">
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">
-      <p-button icon="pi pi-plus" severity="success" (click)="showDialog()" />
-      <p-button icon="pi pi-search" severity="info" (click)="filter()" />
+      <p-button class="m-1" icon="pi pi-plus" severity="success" (click)="showDialog()" />
+      <p-button class="m-1" icon="pi pi-search" severity="info" (click)="toggleFilter()" />
+
     </ng-template>
     <p>
-      کل مبلغ بستانکاری : (
-      <span style="color: darkgreen"> {{ sumDebtor | number }} </span>
-      ) تومان
+      کل مبلغ بستانکاری : <span style="color: darkgreen">{{ sumDebtor | number }}</span> تومان
     </p>
-
     <p>
-      کل مبلغ بدهکاری : (
-      <span style="color: crimson"> {{ sumCreditor | number }} </span>
-      ) تومان
+      کل مبلغ بدهکاری : <span style="color: crimson">{{ sumCreditor | number }}</span> تومان
     </p>
   </p-toolbar>
 
-  <p-table #dt1 [value]="transactions" [globalFilterFields]="[
-
-      'id',
-      'amount',
-      'description',
-      'transaction_Date',
-      'isClearing'
-    ]" selectionMode="single" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="10" [paginator]="true"
-    stateStorage="session" stateKey="statedemo-session">
-    <ng-template pTemplate="header" let-columns>
+  <p-table #dt1 [value]="transactions" dataKey="id" [rows]="10" [paginator]="true">
+    <ng-template pTemplate="header">
       <tr [hidden]="hideFilter">
-        <th><input pInputText (input)="getValue('id',$event)" /></th>
-        <th><input pInputText (input)="getValue('users',$event)" /></th>
-        <th><input pInputText (input)="getValue('amount',$event)" /></th>
-        <th><input pInputText (input)="getValue('description',$event)" /></th>
-        <th><input pInputText (input)="getValue('transaction_Date',$event)" /></th>
-        <th><input pInputText (input)="getValue('isClearing',$event)" /></th>
-        <th><input pInputText (input)="getValue('isDebtor',$event)" /></th>
-        <th><input pInputText (input)="getValue('created_Date',$event)" /></th>
-        <th><input pInputText (input)="getValue('updated_Date',$event)" /></th>
+        <td><input class="size_w" pInputText placeholder="شناسه" (input)="getValue('id', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="کاربر" (input)="getValue('users', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="مبلغ" (input)="getValue('amount', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="توضیحات" (input)="getValue('description', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="تاریخ" (input)="getValue('transaction_Date', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="تسویه" (input)="getValue('isClearing', $event)" /></td>
+        <td><input class="size_w" pInputText placeholder="بدهکار یا بستانکار"
+            (input)="getValue('isClearing', $event)" /></td>
       </tr>
       <tr>
-        <th pSortableColumn="id"> شناسه تراکنش <p-sortIcon field="id"></p-sortIcon> </th>
-        <th pSortableColumn="users"> کاربر<p-sortIcon field="users"></p-sortIcon> </th>
-        <th pSortableColumn="amount"> مبلغ <p-sortIcon field="amount"></p-sortIcon> </th>
-        <th pSortableColumn="description"> توضیحات تکمیلی <p-sortIcon field="description"></p-sortIcon> </th>
-        <th pSortableColumn="transaction_Date"> تاریخ تراکنش <p-sortIcon field="transaction_Date"></p-sortIcon> </th>
-        <th pSortableColumn="isClearing"> تسویه شده <p-sortIcon field="isClearing"></p-sortIcon> </th>
-        <th pSortableColumn="isDebtor"> بدهکار یا بستانکار <p-sortIcon field="isDebtor"></p-sortIcon> </th>
-        <th pSortableColumn="created_Date"> تاریخ ثبت تراکنش <p-sortIcon field="created_Date"></p-sortIcon> </th>
-        <th pSortableColumn="updated_Date"> تاریخ آخرین به روز رسانی ترانکش <p-sortIcon
-            field="updated_Date"></p-sortIcon> </th>
+        <th pSortableColumn="id"> شناسه <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="users"> کاربر <p-sortIcon field="users"></p-sortIcon></th>
+        <th pSortableColumn="amount"> مبلغ <p-sortIcon field="amount"></p-sortIcon></th>
+        <th pSortableColumn="description"> توضیحات <p-sortIcon field="description"></p-sortIcon></th>
+        <th pSortableColumn="transaction_Date"> تاریخ تراکنش <p-sortIcon field="transaction_Date"></p-sortIcon></th>
+        <th pSortableColumn="isClearing"> تسویه شده <p-sortIcon field="isClearing"></p-sortIcon></th>
+        <th pSortableColumn="isDebtor"> بدهکار یا بستانکار <p-sortIcon field="isDebtor"></p-sortIcon></th>
         <th>عملیات</th>
       </tr>
-
     </ng-template>
 
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-
+    <ng-template pTemplate="body" let-rowData>
       <tr>
         <td>{{ rowData.id }}</td>
         <td>{{ rowData.users.fullNames }}</td>
         <td>{{ rowData.amount | number }}</td>
         <td>{{ rowData.description }}</td>
         <td>{{ rowData.transaction_Date | jalali }}</td>
-
-        <td *ngIf="rowData.isClearing">تسویه شده</td>
-        <td *ngIf="!rowData.isClearing">تسویه نشده</td>
-
-        <td *ngIf="rowData.isDebtor">بدهکار</td>
-        <td *ngIf="!rowData.isDebtor">بستانکار</td>
-
-        <td>{{ rowData.created_Date | jalali }}</td>
-        <td>{{ rowData.updated_Date | jalali }}</td>
+        <td>{{ rowData.isClearing ? 'تسویه شده' : 'تسویه نشده' }}</td>
+        <td>{{ rowData.isDebtor ? 'بدهکار' : 'بستانکار' }}</td>
         <td>
-          <div>
-            <button class="btn btn-primary pi pi-user-edit p-2 m-1" title="ویرایش"
-              (click)="editTrans(rowData)"></button>
-            <button class="btn btn-danger pi pi-times p-2 m-1" title="حذف" (click)="deleteTrans(rowData)"></button>
-          </div>
+          <button class="btn btn-primary pi pi-user-edit m-1 p-2" (click)="editTransaction(rowData)"></button>
+          <button class="btn btn-danger pi pi-times m-1 p-2" (click)="deleteTransaction(rowData.id)"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <!-- Add Update -->
   <p-dialog [(visible)]="transactionDialog" [style]="{ width: '70%', direction: 'rtl' }"
-    header="{{ btnUpdate ? 'ویرایش بستانکار بدهکار' : 'ثبت بستانکار بدهکار' }}" [modal]="true" styleClass="p-fluid">
-
+    header="{{ isUpdate ? 'ویرایش' : 'ثبت' }}" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <form autocomplete="off" [formGroup]="checkoutForm" id="add_transaction" name="add_transaction"
-        (ngSubmit)="onSubmit()" #doc="ngForm">
-        <div class="row col-md-12">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <div class="row">
           <div class="col-md-6">
             <label for="amount">مبلغ</label>
-            <p-inputNumber class="styleInputnumber" type="text" pInputText id="amount" maxlength="40"
-              formControlName="amount" [(ngModel)]="transaction.amount" />
+            <p-inputNumber formControlName="amount" class="styleInputnumber" type="text" pInputText id="amount"
+              maxlength="40" [(ngModel)]="transaction.amount" />
           </div>
-
           <div class="col-md-6">
             <label for="userId">کاربر</label>
             <select class="form-control" id="userId" formControlName="userId" [(ngModel)]="transaction.userId"
               #mySelect>
               <option value=""></option>
-              <option *ngFor="let users of AllUsers" value="{{ users.id }}">
+              <option *ngFor="let users of allUsers" value="{{ users.id }}">
                 {{ users.fullNames }}
               </option>
             </select>
           </div>
-
           <div class="col-md-6">
             <label for="description">توضیحات</label>
             <input type="text" pInputText id="description" maxlength="40" formControlName="description"
               [(ngModel)]="transaction.description" />
           </div>
-
           <!-- وضعیت بدهکاری -->
           <div class="col-md-6">
             <label for="وضعیت">وضعیت بدهکاری : </label>
@@ -128,7 +94,6 @@
               <label for="isDebtor_false" class="ml-2"> پرداخت نشده </label>
             </div>
           </div>
-
           <!-- وضعیت تسویه -->
           <div class="col-md-6">
             <label for="وضعیت">وضعیت تسویه : </label>
@@ -144,7 +109,6 @@
               <label for="isClearing_false" class="ml-2"> تسویه نشده </label>
             </div>
           </div>
-
           <div class="col-md-6">
             <label for="transaction_Date">تاریخ تراکنش</label>
             <div class="row col-md-12">
@@ -158,14 +122,15 @@
               </div>
             </div>
           </div>
-
-          <div class="col-md-12 text-center m-1 p-1">
-            <input type="submit" name="save" class="btn btn-success ml-1" value="{{ btnUpdate ? 'ویرایش' : 'ثبت' }}"
-              id="butsave" [disabled]="!doc.valid" style="width: 120px" />
-            <input name="close" class="btn btn-light" value="انصراف" (click)="closeDialog()" style="width: 120px" />
-          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">{{ isUpdate ? 'ویرایش' : 'ثبت' }}</button>
+          <button type="button" class="btn btn-light" (click)="closeDialog()">انصراف</button>
         </div>
       </form>
     </ng-template>
   </p-dialog>
 </p-card>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

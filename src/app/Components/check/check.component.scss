@@ -1,0 +1,56 @@
+@import "../../../assets/scss/styleComponenet.scss";
+
+.displayNone {
+  display: none;
+}
+td {
+  width: 10%;
+}
+hr {
+  margin: 5px;
+}
+
+.borderTable {
+  border: 1px solid #cccccc45;
+}
+
+.form-control {
+  padding: 0.75rem 0.75rem;
+}
+
+label {
+  font-size: small;
+}
+
+.p-dialog .p-dialog-header {
+  padding: 2px;
+}
+
+.card {
+  width: 100%;
+}
+
+.headerColor {
+  background: #d2d2d2;
+  text-align: center;
+  color: black;
+  border-radius: 5px;
+}
+// File: app.component.css
+.styleInputnumber {
+  border: 0px;
+  padding: 0px;
+}
+.size_w {
+  width: 100% !important;
+}
+
+.p-dialog .p-dialog-footer {
+  border-top: 0 none;
+  background: #ffffff;
+  color: #4b5563;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  text-align: center !important;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}

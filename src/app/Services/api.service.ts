@@ -6,6 +6,7 @@ import { Transactions } from '../Models/Transaction';
   providedIn: 'root',
 })
 export class ApiService {
+
   constructor() { }
   /**
    * Fetches a list of users from a mock API endpoint.
@@ -74,6 +75,19 @@ export class ApiService {
       value = '0';
     }
     return fetch(environment.urlapi + 'Transactions/SearchTransaction/' + nameField + '/' + value)
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+
+  deleteTransaction(id: number) {
+    return fetch(environment.urlapi + 'Transactions/' + id, {
+      method: 'DELETE',
+    })
       .then((response) => response.json())
       .then((data) => {
         return data;

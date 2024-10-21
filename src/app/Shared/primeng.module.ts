@@ -25,6 +25,9 @@ import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TabViewModule } from 'primeng/tabview';
+
+
 @NgModule({
   declarations: [],
   exports: [
@@ -51,7 +54,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PanelModule,
     CardModule,
     MatDatepickerModule,
-    InputTextModule
+    InputTextModule,
+    TabViewModule
   ],
   imports: [CommonModule],
 })
