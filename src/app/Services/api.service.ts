@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Transactions } from '../Models/Transaction';
+import { Checks } from '../Models/Checks';
 
 @Injectable({
   providedIn: 'root',
@@ -96,4 +97,28 @@ export class ApiService {
         console.error;
       });
   }
+
+
+  getChecks() {
+    return fetch(environment.urlapi + 'Checks')
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+  addChecks(checks: Checks) { 
+    return fetch(environment.urlapi + 'Checks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(checks),
+    })
+  }
+  searchChecks(nameField: string, value: string, checks: Checks) { }
+  updateChecks(checks: Checks) { }
+  deleteCheck(id: number) { }
 }

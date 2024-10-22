@@ -4,9 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from 'express';
 import moment from 'jalali-moment';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { Transactions } from '../../Models/Transaction';
 import { Users } from '../../Models/Users';
 import { ApiService } from '../../Services/api.service';
+import { Checks } from '../../Models/Checks';
 
 @Component({
   selector: 'app-check',
@@ -17,10 +17,10 @@ import { ApiService } from '../../Services/api.service';
 })
 export class CheckComponent implements OnInit {
   checkoutForm!: FormGroup;
-  transactionDialog: boolean = false;
-  transactions: Transactions[] = [];
-  transaction: Transactions = new Transactions();
-  selectedTransactions: Transactions[] = [];
+  checkDialog: boolean = false;
+  checks: Checks[] = [];
+  check: Checks = new Checks();
+  selectedChecks: Checks[] = [];
   hideFilter: boolean = true;
 
   sumDebtor: number = 0;
@@ -39,16 +39,16 @@ export class CheckComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadUsers();
-    this.loadTransactions();
+    this.loadChecks();
   }
 
   initializeForm(): void {
     this.checkoutForm = this.formBuilder.group({
       amount: ['', Validators.required],
       description: ['', Validators.required],
-      isDebtor: ['', Validators.required],
-      transaction_Date: ['', Validators.required],
-      isClearing: ['', Validators.required],
+      due_Date: ['', Validators.required],
+      serial: ['', Validators.required],
+      status: ['', Validators.required],
       userId: ['', Validators.required],
     });
   }
@@ -57,9 +57,9 @@ export class CheckComponent implements OnInit {
     debugger;
     const inputElement = event.target as HTMLInputElement;
 
-    this.apiService.searchTransactions(nameField, inputElement.value).then((res) => {
-      this.transactions = res;
-    });
+    // this.apiService.searchChecks(nameField, inputElement.value).then((res) => {
+    //   this.checks = res;
+    // });
     return inputElement.value;
   }
 
@@ -74,48 +74,50 @@ export class CheckComponent implements OnInit {
     }
   }
 
-  async loadTransactions(): Promise<void> {
+  async loadChecks(): Promise<void> {
+    debugger
     try {
-      const data = await this.apiService.getTransactions();
+      const data = await this.apiService.getChecks();
       if (data?.length) {
-        this.transactions = data;
-        this.calculateSums();
+        this.checks = data;
+        //this.calculateSums();
       }
     } catch (error) {
-      console.error('Error loading transactions:', error);
+      console.error('Error loading checks:', error);
     }
   }
 
-  calculateSums(): void {
-    this.sumDebtor = this.transactions
-      .filter(item => item.isDebtor !== 0)
-      .reduce((sum, current) => sum + current.amount, 0);
+  // calculateSums(): void {
+  //   this.sumDebtor = this.checks
+  //     .filter(item => item.isDebtor !== 0)
+  //     .reduce((sum, current) => sum + current.amount, 0);
 
-    this.sumCreditor = this.transactions
-      .filter(item => item.isDebtor === 0)
-      .reduce((sum, current) => sum + current.amount, 0);
-  }
+  //   this.sumCreditor = this.checks
+  //     .filter(item => item.isDebtor === 0)
+  //     .reduce((sum, current) => sum + current.amount, 0);
+  // }
 
   toggleFilter(): void {
     this.hideFilter = !this.hideFilter;
   }
 
   async onSubmit(): Promise<void> {
-    const transactionData = this.checkoutForm.value;
-    transactionData.transaction_Date = moment(transactionData.transaction_Date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+    debugger;
+    const checkData = this.checkoutForm.value;
+    checkData.Due_Date = moment(checkData.Due_Date, 'YYYY-MM-DD').format('YYYY-MM-DD');
 
     if (this.isUpdate) {
-      await this.updateTransaction(transactionData);
+      await this.updateCheck(checkData);
     } else {
-      await this.addTransaction(transactionData);
+      await this.addCheck(checkData);
     }
   }
 
-  async addTransaction(transaction: Transactions): Promise<void> {
+  async addCheck(check: Checks): Promise<void> {
     try {
-      await this.apiService.addTransactions(transaction);
+      await this.apiService.addChecks(check);
       this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب ثبت شد' });
-      await this.loadTransactions();
+      await this.loadChecks();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -126,12 +128,12 @@ export class CheckComponent implements OnInit {
     }
   }
 
-  async updateTransaction(transaction: Transactions): Promise<void> {
+  async updateCheck(check: Checks): Promise<void> {
     try {
-      transaction.id = this.transaction.id;
-      await this.apiService.updateTransactions(transaction);
+      check.id = this.check.id;
+      await this.apiService.updateChecks(check);
       this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب بروز شد' });
-      await this.loadTransactions();
+      await this.loadChecks();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -141,13 +143,13 @@ export class CheckComponent implements OnInit {
       }
     }
   }
-  editTransaction(transaction: Transactions): void {
+  editCheck(check: Checks): void {
     this.isUpdate = true;
-    this.transaction = { ...transaction };
-    this.transactionDialog = true;
+    this.check = { ...check };
+    this.checkDialog = true;
   }
 
-  async deleteTransaction(transaction: Transactions): Promise<void> {
+  async deleteCheck(check: Checks): Promise<void> {
     this.confirmationService.confirm({
       message: 'آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟',
       header: 'تأیید حذف',
@@ -156,9 +158,9 @@ export class CheckComponent implements OnInit {
       rejectLabel: 'خیر',
       accept: async () => {
         try {
-          await this.apiService.deleteTransaction(transaction.id);
+          await this.apiService.deleteCheck(check.id);
           this.messageService.add({ severity: 'success', summary: 'حذف شد', detail: 'آیتم حذف شد' });
-          await this.loadTransactions();
+          await this.loadChecks();
         } catch (error: unknown) {
           if (error instanceof Error) {
             this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
@@ -173,17 +175,17 @@ export class CheckComponent implements OnInit {
   }
 
   showDialog(): void {
-    this.transaction = new Transactions();
+    this.check = new Checks();
     this.isUpdate = false;
-    this.transactionDialog = true;
+    this.checkDialog = true;
   }
 
   closeDialog(): void {
-    this.transactionDialog = false;
-    this.transaction = new Transactions();
+    this.checkDialog = false;
+    this.check = new Checks();
   }
 
-  trackById(index: number, item: Transactions): number {
+  trackById(index: number, item: Checks): number {
     return item.id;
   }
 }
