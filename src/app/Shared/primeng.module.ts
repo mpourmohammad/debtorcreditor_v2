@@ -26,7 +26,7 @@ import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TabViewModule } from 'primeng/tabview';
-
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
   declarations: [],
@@ -55,7 +55,8 @@ import { TabViewModule } from 'primeng/tabview';
     CardModule,
     MatDatepickerModule,
     InputTextModule,
-    TabViewModule
+    TabViewModule,
+    MenubarModule
   ],
   imports: [CommonModule],
 })
