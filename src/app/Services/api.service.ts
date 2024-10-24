@@ -7,8 +7,7 @@ import { Checks } from '../Models/Checks';
   providedIn: 'root',
 })
 export class ApiService {
-
-  constructor() { }
+  constructor() {}
   /**
    * Fetches a list of users from a mock API endpoint.
    * @returns {Promise<any>} A promise that resolves to the user data returned from the API.
@@ -75,7 +74,13 @@ export class ApiService {
     if (value.trim() === '') {
       value = '0';
     }
-    return fetch(environment.urlapi + 'Transactions/SearchTransaction/' + nameField + '/' + value)
+    return fetch(
+      environment.urlapi +
+        'Transactions/SearchTransaction/' +
+        nameField +
+        '/' +
+        value
+    )
       .then((response) => response.json())
       .then((data) => {
         return data;
@@ -98,7 +103,6 @@ export class ApiService {
       });
   }
 
-
   getChecks() {
     return fetch(environment.urlapi + 'Checks')
       .then((response) => response.json())
@@ -109,16 +113,30 @@ export class ApiService {
         console.error;
       });
   }
-  addChecks(checks: Checks) { 
+  addChecks(checks: Checks) {
     return fetch(environment.urlapi + 'Checks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(checks),
-    })
+    });
   }
-  searchChecks(nameField: string, value: string, checks: Checks) { }
-  updateChecks(checks: Checks) { }
-  deleteCheck(id: number) { }
+  updateChecks(checks: Checks) {
+    return fetch(environment.urlapi + 'Checks/' + checks.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(checks),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+  deleteCheck(id: number) {}
 }

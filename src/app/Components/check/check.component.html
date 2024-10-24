@@ -1,38 +1,122 @@
 <p-card header="ثبت چک">
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="right">
-      <p-button class="m-1" icon="pi pi-plus" severity="success" (click)="showDialog()" />
-      <p-button class="m-1" icon="pi pi-search" severity="info" (click)="toggleFilter()" />
+      <p-button
+        class="m-1"
+        icon="pi pi-plus"
+        severity="success"
+        (click)="showDialog()"
+      />
+      <p-button
+        class="m-1"
+        icon="pi pi-search"
+        severity="info"
+        (click)="toggleFilter()"
+      />
     </ng-template>
     <p>
-      کل مبلغ بستانکاری : <span style="color: darkgreen">{{ sumDebtor | number }}</span> تومان
+      کل مبلغ بستانکاری :
+      <span style="color: darkgreen">{{ sumDebtor | number }}</span> تومان
     </p>
     <p>
-      کل مبلغ بدهکاری : <span style="color: crimson">{{ sumCreditor | number }}</span> تومان
+      کل مبلغ بدهکاری :
+      <span style="color: crimson">{{ sumCreditor | number }}</span> تومان
     </p>
   </p-toolbar>
 
   <p-table #dt1 [value]="checks" dataKey="id" [rows]="10" [paginator]="true">
     <ng-template pTemplate="header">
-      <tr [hidden]="hideFilter">
-        <td><input class="size_w" pInputText placeholder="شناسه" (input)="getValue('id', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="کاربر" (input)="getValue('users', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="مبلغ" (input)="getValue('Amount', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="توضیحات" (input)="getValue('Description', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="تاریخ" (input)="getValue('Due_Date', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="تسویه" (input)="getValue('isClearing', $event)" /></td>
-        <td><input class="size_w" pInputText placeholder="بدهکار یا بستانکار"
-            (input)="getValue('isClearing', $event)" /></td>
-      </tr>
       <tr>
-        <th pSortableColumn="ID"> شناسه <p-sortIcon field="ID"></p-sortIcon></th>
-        <th pSortableColumn="users"> کاربر <p-sortIcon field="users"></p-sortIcon></th>
-        <th pSortableColumn="Amount"> مبلغ <p-sortIcon field="Amount"></p-sortIcon></th>
-        <th pSortableColumn="Description"> توضیحات <p-sortIcon field="Description"></p-sortIcon></th>
-        <th pSortableColumn="Due_Date"> تاریخ تراکنش <p-sortIcon field="Due_Date"></p-sortIcon></th>
-        <th pSortableColumn="isClearing"> سریال <p-sortIcon field="isClearing"></p-sortIcon></th>
-        <th pSortableColumn="isDebtor"> وضعیت <p-sortIcon field="isDebtor"></p-sortIcon></th>
+        <th pSortableColumn="id">
+          شناسه
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="users">
+          نام کاربر
+          <p-sortIcon field="users"></p-sortIcon>
+        </th>
+        <th pSortableColumn="amount">
+          مبلغ
+          <p-sortIcon field="amount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="description">
+          توضیحات
+          <p-sortIcon field="description"></p-sortIcon>
+        </th>
+        <th pSortableColumn="due_Date">
+          تاریخ
+          <p-sortIcon field="due_Date"></p-sortIcon>
+        </th>
+        <th pSortableColumn="serial">
+          سریال
+          <p-sortIcon field="serial"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          وضعیت تسویه
+          <p-sortIcon field="status"></p-sortIcon>
+        </th>
+
         <th>عملیات</th>
+      </tr>
+      <tr [hidden]="hideFilter">
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'id')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'users')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'amount')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'description')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'due_Date')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'serial')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'status')"
+          />
+        </th>
+
+        <th></th>
       </tr>
     </ng-template>
 
@@ -44,30 +128,53 @@
         <td>{{ rowData.description }}</td>
         <td>{{ rowData.due_Date | jalali }}</td>
         <td>{{ rowData.serial }}</td>
-        <td>{{ rowData.status ? 'پاس نشده' : 'پاس شده' }}</td>
+        <td>{{ rowData.status ? "پاس نشده" : "پاس شده" }}</td>
         <td>
-          <button class="btn btn-primary pi pi-user-edit m-1 p-2" (click)="editCheck(rowData)"></button>
-          <button class="btn btn-danger pi pi-times m-1 p-2" (click)="deleteCheck(rowData.ID)"></button>
+          <button
+            class="btn btn-primary pi pi-user-edit m-1 p-2"
+            (click)="editCheck(rowData)"
+          ></button>
+          <button
+            class="btn btn-danger pi pi-times m-1 p-2"
+            (click)="deleteCheck(rowData.ID)"
+          ></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 
-  <p-dialog [(visible)]="checkDialog" [style]="{ width: '70%', direction: 'rtl' }"
-    header="{{ isUpdate ? 'ویرایش' : 'ثبت' }}" [modal]="true" styleClass="p-fluid">
+  <p-dialog
+    [(visible)]="checkDialog"
+    [style]="{ width: '70%', direction: 'rtl' }"
+    header="{{ isUpdate ? 'ویرایش' : 'ثبت' }}"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
     <ng-template pTemplate="content">
       <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
         <div class="row">
-
           <div class="col-md-6">
-            <label for="Amount">مبلغ</label>
-            <p-inputNumber formControlName="Amount" class="styleInputnumber" type="text" pInputText id="Amount"
-              maxlength="40" [(ngModel)]="check.amount" />
+            <label for="amount">مبلغ</label>
+            <p-inputNumber
+              formControlName="amount"
+              class="styleInputnumber"
+              type="text"
+              pInputText
+              id="amount"
+              maxlength="40"
+              [(ngModel)]="check.amount"
+            />
           </div>
 
           <div class="col-md-6">
             <label for="userId">کاربر</label>
-            <select class="form-control" id="userId" formControlName="userId" [(ngModel)]="check.userId" #mySelect>
+            <select
+              class="form-control"
+              id="userId"
+              formControlName="userId"
+              [(ngModel)]="check.userId"
+              #mySelect
+            >
               <option value=""></option>
               <option *ngFor="let users of allUsers" value="{{ users.id }}">
                 {{ users.fullNames }}
@@ -77,25 +184,47 @@
 
           <div class="col-md-6">
             <label for="description">توضیحات</label>
-            <input type="text" pInputText id="description" maxlength="40" formControlName="description"
-              [(ngModel)]="check.description" />
+            <input
+              type="text"
+              pInputText
+              id="description"
+              maxlength="40"
+              formControlName="description"
+              [(ngModel)]="check.description"
+            />
           </div>
 
           <div class="col-md-6">
             <label for="serial">سریال</label>
-            <input type="text" pInputText id="serial" maxlength="40" formControlName="serial"
-              [(ngModel)]="check.serial" />
+            <input
+              type="text"
+              pInputText
+              id="serial"
+              maxlength="40"
+              formControlName="serial"
+              [(ngModel)]="check.serial"
+            />
           </div>
 
           <div class="col-md-6">
             <label for="due_Date">تاریخ تراکنش</label>
             <div class="row col-md-12">
               <div class="col-md-11">
-                <input matInput pInputText id="due_Date" formControlName="due_Date" [(ngModel)]="check.due_Date"
-                  [matDatepicker]="picker1" placeholder="تاریخ تراکنش" />
+                <input
+                  matInput
+                  pInputText
+                  id="due_Date"
+                  formControlName="due_Date"
+                  [(ngModel)]="check.due_Date"
+                  [matDatepicker]="picker1"
+                  placeholder="تاریخ تراکنش"
+                />
               </div>
               <div class="col-md-1">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </div>
             </div>
@@ -104,22 +233,35 @@
           <div class="col-md-6">
             <label for="وضعیت">وضعیت : </label>
             <div class="mt-2">
-              <p-radioButton name="status" value="1" [(ngModel)]="check.status" formControlName="status"
-                inputId="status_true" />
+              <p-radioButton
+                name="status"
+                value="1"
+                [(ngModel)]="check.status"
+                formControlName="status"
+                inputId="status_true"
+              />
               &nbsp;
               <label for="status_true" class="ml-2"> پرداخت شده </label>
               &nbsp;
-              <p-radioButton name="status" value="0" [(ngModel)]="check.status" formControlName="status"
-                inputId="status_false" />
+              <p-radioButton
+                name="status"
+                value="0"
+                [(ngModel)]="check.status"
+                formControlName="status"
+                inputId="status_false"
+              />
               &nbsp;
               <label for="status_false" class="ml-2"> پرداخت نشده </label>
             </div>
           </div>
-
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-success">{{ isUpdate ? 'ویرایش' : 'ثبت' }}</button>
-          <button type="button" class="btn btn-light" (click)="closeDialog()">انصراف</button>
+          <button type="submit" class="btn btn-success">
+            {{ isUpdate ? "ویرایش" : "ثبت" }}
+          </button>
+          <button type="button" class="btn btn-light" (click)="closeDialog()">
+            انصراف
+          </button>
         </div>
       </form>
     </ng-template>

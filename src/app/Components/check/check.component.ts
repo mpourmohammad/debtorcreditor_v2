@@ -13,7 +13,7 @@ import { Checks } from '../../Models/Checks';
   standalone: true,
   imports: [AppModule],
   templateUrl: './check.component.html',
-  styleUrl: './check.component.scss'
+  styleUrl: './check.component.scss',
 })
 export class CheckComponent implements OnInit {
   checkoutForm!: FormGroup;
@@ -34,7 +34,7 @@ export class CheckComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -75,7 +75,7 @@ export class CheckComponent implements OnInit {
   }
 
   async loadChecks(): Promise<void> {
-    debugger
+    debugger;
     try {
       const data = await this.apiService.getChecks();
       if (data?.length) {
@@ -104,7 +104,12 @@ export class CheckComponent implements OnInit {
   async onSubmit(): Promise<void> {
     debugger;
     const checkData = this.checkoutForm.value;
-    checkData.Due_Date = moment(checkData.Due_Date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+    checkData.due_Date = moment(
+      checkData.due_Date,
+      'YYYY-MM-DD'
+    )
+      .locale('cs')
+      .format('YYYY-MM-DD');
 
     if (this.isUpdate) {
       await this.updateCheck(checkData);
@@ -116,14 +121,26 @@ export class CheckComponent implements OnInit {
   async addCheck(check: Checks): Promise<void> {
     try {
       await this.apiService.addChecks(check);
-      this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب ثبت شد' });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'انجام شد',
+        detail: 'حساب ثبت شد',
+      });
       await this.loadChecks();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: error.message,
+        });
       } else {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: 'An unknown error occurred',
+        });
       }
     }
   }
@@ -132,14 +149,26 @@ export class CheckComponent implements OnInit {
     try {
       check.id = this.check.id;
       await this.apiService.updateChecks(check);
-      this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب بروز شد' });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'انجام شد',
+        detail: 'حساب بروز شد',
+      });
       await this.loadChecks();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: error.message,
+        });
       } else {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: 'An unknown error occurred',
+        });
       }
     }
   }
@@ -159,18 +188,35 @@ export class CheckComponent implements OnInit {
       accept: async () => {
         try {
           await this.apiService.deleteCheck(check.id);
-          this.messageService.add({ severity: 'success', summary: 'حذف شد', detail: 'آیتم حذف شد' });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'حذف شد',
+            detail: 'آیتم حذف شد',
+          });
           await this.loadChecks();
         } catch (error: unknown) {
           if (error instanceof Error) {
-            this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'خطا',
+              detail: error.message,
+            });
           } else {
-            this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'خطا',
+              detail: 'An unknown error occurred',
+            });
           }
         }
-      }, reject: () => {
-        this.messageService.add({ severity: 'info', summary: 'لغو شد', detail: 'عملیات حذف لغو شد' });
-      }
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'لغو شد',
+          detail: 'عملیات حذف لغو شد',
+        });
+      },
     });
   }
 
