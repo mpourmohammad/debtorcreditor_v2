@@ -121,14 +121,14 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData>
-      <tr>
+      <tr [ngClass]="rowData.status ? 'p-highlight' : ''">
         <td>{{ rowData.id }}</td>
         <td>{{ rowData.users.fullNames }}</td>
         <td>{{ rowData.amount | number }}</td>
         <td>{{ rowData.description }}</td>
         <td>{{ rowData.due_Date | jalali }}</td>
         <td>{{ rowData.serial }}</td>
-        <td>{{ rowData.status ? "پاس نشده" : "پاس شده" }}</td>
+        <td>{{ rowData.status ? "پاس شده" : "پاس نشده" }}</td>
         <td>
           <button
             class="btn btn-primary pi pi-user-edit m-1 p-2"
@@ -241,7 +241,7 @@
                 inputId="status_true"
               />
               &nbsp;
-              <label for="status_true" class="ml-2"> پرداخت شده </label>
+              <label for="status_true" class="ml-2"> پاس شده </label>
               &nbsp;
               <p-radioButton
                 name="status"
@@ -251,7 +251,7 @@
                 inputId="status_false"
               />
               &nbsp;
-              <label for="status_false" class="ml-2"> پرداخت نشده </label>
+              <label for="status_false" class="ml-2"> پاس نشده </label>
             </div>
           </div>
         </div>
