@@ -22,7 +22,6 @@ import moment from 'jalali-moment';
   styleUrl: './transaction.component.scss',
 })
 export class TransactionComponent implements OnInit {
-
   checkoutForm!: FormGroup;
   transactionDialog: boolean = false;
   transactions: Transactions[] = [];
@@ -42,7 +41,7 @@ export class TransactionComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -59,16 +58,6 @@ export class TransactionComponent implements OnInit {
       isClearing: ['', Validators.required],
       userId: ['', Validators.required],
     });
-  }
-
-  getValue(nameField: string, event: Event): string {
-    debugger;
-    const inputElement = event.target as HTMLInputElement;
-
-    this.apiService.searchTransactions(nameField, inputElement.value).then((res) => {
-      this.transactions = res;
-    });
-    return inputElement.value;
   }
 
   async loadUsers(): Promise<void> {
@@ -95,12 +84,13 @@ export class TransactionComponent implements OnInit {
   }
 
   calculateSums(): void {
+    debugger;
     this.sumDebtor = this.transactions
-      .filter(item => item.isDebtor !== 0)
+      .filter((item) => item.isDebtor !== 0 && item.isClearing === 0)
       .reduce((sum, current) => sum + current.amount, 0);
 
     this.sumCreditor = this.transactions
-      .filter(item => item.isDebtor === 0)
+      .filter((item) => item.isDebtor === 0 && item.isClearing === 0)
       .reduce((sum, current) => sum + current.amount, 0);
   }
 
@@ -110,8 +100,12 @@ export class TransactionComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     const transactionData = this.checkoutForm.value;
-    transactionData.transaction_Date = moment(transactionData.transaction_Date, 'YYYY-MM-DD').format('YYYY-MM-DD');
-
+    transactionData.transaction_Date = moment(
+      transactionData.transaction_Date,
+      'YYYY-MM-DD'
+    )
+      .locale('cs')
+      .format('YYYY-MM-DD');
     if (this.isUpdate) {
       await this.updateTransaction(transactionData);
     } else {
@@ -122,14 +116,26 @@ export class TransactionComponent implements OnInit {
   async addTransaction(transaction: Transactions): Promise<void> {
     try {
       await this.apiService.addTransactions(transaction);
-      this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب ثبت شد' });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'انجام شد',
+        detail: 'حساب ثبت شد',
+      });
       await this.loadTransactions();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: error.message,
+        });
       } else {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: 'An unknown error occurred',
+        });
       }
     }
   }
@@ -138,14 +144,26 @@ export class TransactionComponent implements OnInit {
     try {
       transaction.id = this.transaction.id;
       await this.apiService.updateTransactions(transaction);
-      this.messageService.add({ severity: 'success', summary: 'انجام شد', detail: 'حساب بروز شد' });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'انجام شد',
+        detail: 'حساب بروز شد',
+      });
       await this.loadTransactions();
       this.closeDialog();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: error.message,
+        });
       } else {
-        this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'خطا',
+          detail: 'An unknown error occurred',
+        });
       }
     }
   }
@@ -165,18 +183,35 @@ export class TransactionComponent implements OnInit {
       accept: async () => {
         try {
           await this.apiService.deleteTransaction(transaction.id);
-          this.messageService.add({ severity: 'success', summary: 'حذف شد', detail: 'آیتم حذف شد' });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'حذف شد',
+            detail: 'آیتم حذف شد',
+          });
           await this.loadTransactions();
         } catch (error: unknown) {
           if (error instanceof Error) {
-            this.messageService.add({ severity: 'error', summary: 'خطا', detail: error.message });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'خطا',
+              detail: error.message,
+            });
           } else {
-            this.messageService.add({ severity: 'error', summary: 'خطا', detail: 'An unknown error occurred' });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'خطا',
+              detail: 'An unknown error occurred',
+            });
           }
         }
-      }, reject: () => {
-        this.messageService.add({ severity: 'info', summary: 'لغو شد', detail: 'عملیات حذف لغو شد' });
-      }
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'لغو شد',
+          detail: 'عملیات حذف لغو شد',
+        });
+      },
     });
   }
 
