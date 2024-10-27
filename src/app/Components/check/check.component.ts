@@ -53,16 +53,6 @@ export class CheckComponent implements OnInit {
     });
   }
 
-  getValue(nameField: string, event: Event): string {
-    debugger;
-    const inputElement = event.target as HTMLInputElement;
-
-    // this.apiService.searchChecks(nameField, inputElement.value).then((res) => {
-    //   this.checks = res;
-    // });
-    return inputElement.value;
-  }
-
   async loadUsers(): Promise<void> {
     try {
       const data = await this.apiService.getAllUsers();

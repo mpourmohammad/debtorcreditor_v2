@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Transactions } from '../Models/Transaction';
 import { Checks } from '../Models/Checks';
+import { Users } from '../Models/Users';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  updateUsers(user: Users) {
+    throw new Error('Method not implemented.');
+  }
+  
   constructor() {}
   /**
    * Fetches a list of users from a mock API endpoint.
@@ -139,4 +144,8 @@ export class ApiService {
       });
   }
   deleteCheck(id: number) {}
+
+  addUsers(userData: Users) {
+    throw new Error('Method not implemented.');
+  }
 }
