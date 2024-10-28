@@ -8,10 +8,6 @@ import { Users } from '../Models/Users';
   providedIn: 'root',
 })
 export class ApiService {
-  updateUsers(user: Users) {
-    throw new Error('Method not implemented.');
-  }
-  
   constructor() {}
   /**
    * Fetches a list of users from a mock API endpoint.
@@ -19,6 +15,17 @@ export class ApiService {
    */
   getAllUsers() {
     return fetch(environment.urlapi + 'Users')
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+
+  getAllRoles() {
+    return fetch(environment.urlapi + 'Users/Roles')
       .then((response) => response.json())
       .then((data) => {
         return data;
@@ -146,6 +153,36 @@ export class ApiService {
   deleteCheck(id: number) {}
 
   addUsers(userData: Users) {
-    throw new Error('Method not implemented.');
+    return fetch(environment.urlapi + 'Users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
+  }
+
+  updateUsers(user: Users) {
+    return fetch(environment.urlapi + 'Users/' + user.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error;
+      });
   }
 }

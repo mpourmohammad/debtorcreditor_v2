@@ -1,163 +1,227 @@
 <p-card header="ثبت کاربر">
-    <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="right">
-            <p-button class="m-1" icon="pi pi-plus" severity="success" (click)="showDialog()" />
-            <p-button class="m-1" icon="pi pi-search" severity="info" (click)="toggleFilter()" />
-        </ng-template>
-    </p-toolbar>
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="right">
+      <p-button
+        class="m-1"
+        icon="pi pi-plus"
+        severity="success"
+        (click)="showDialog()"
+      />
+      <p-button
+        class="m-1"
+        icon="pi pi-search"
+        severity="info"
+        (click)="toggleFilter()"
+      />
+    </ng-template>
     <p>
-        تعداد کاربران فعال :
-        <span style="color: darkgreen">{{ sumDebtor | number }}</span>
+      تعداد کاربران فعال :
+      <span style="color: darkgreen">{{ sumDebtor | number }}</span>
     </p>
     <p>
-        تعداد کاربران غیرفعال :
-        <span style="color: crimson">{{ sumCreditor | number }}</span>
+      تعداد کاربران غیرفعال :
+      <span style="color: crimson">{{ sumCreditor | number }}</span>
     </p>
-    <p-table #dt1 [value]="users" dataKey="id" [rows]="10" [paginator]="true">
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="id">
-                    شناسه
-                    <p-sortIcon field="id"></p-sortIcon>
-                </th>
-                <th pSortableColumn="users">
-                    نام کاربر
-                    <p-sortIcon field="users"></p-sortIcon>
-                </th>
-                <th pSortableColumn="amount">
-                    مبلغ
-                    <p-sortIcon field="amount"></p-sortIcon>
-                </th>
-                <th pSortableColumn="description">
-                    توضیحات
-                    <p-sortIcon field="description"></p-sortIcon>
-                </th>
-                <th pSortableColumn="due_Date">
-                    تاریخ
-                    <p-sortIcon field="due_Date"></p-sortIcon>
-                </th>
-                <th pSortableColumn="serial">
-                    سریال
-                    <p-sortIcon field="serial"></p-sortIcon>
-                </th>
-                <th pSortableColumn="status">
-                    وضعیت تسویه
-                    <p-sortIcon field="status"></p-sortIcon>
-                </th>
+  </p-toolbar>
 
-                <th>عملیات</th>
-            </tr>
-            <tr [hidden]="hideFilter">
-                <th>
-                    <input pInputText type="text" style="width: 100%" (input)="dt1.filter($event.target.value, 'id')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'users')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'amount')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'description')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'due_Date')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'serial')" />
-                </th>
-                <th>
-                    <input pInputText type="text" style="width: 100%"
-                        (input)="dt1.filter($event.target.value, 'status')" />
-                </th>
+  <p-table #dt1 [value]="users" dataKey="id" [rows]="10" [paginator]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">
+          شناسه
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="fullNames">
+          نام کاربر
+          <p-sortIcon field="fullNames"></p-sortIcon>
+        </th>
+        <th pSortableColumn="username">
+          مبلغ
+          <p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          توضیحات
+          <p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th pSortableColumn="roleId">
+          تاریخ
+          <p-sortIcon field="roleId"></p-sortIcon>
+        </th>
+        <th>عملیات</th>
+      </tr>
+      <tr [hidden]="hideFilter">
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'id')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'fullNames')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'username')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'status')"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            style="width: 100%"
+            (input)="dt1.filter($event.target.value, 'roleId')"
+          />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
 
-                <th></th>
-            </tr>
-        </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr [ngClass]="rowData.status ? 'p-highlight' : ''">
+        <td>{{ rowData.id }}</td>
+        <td>{{ rowData.fullNames }}</td>
+        <td>{{ rowData.username }}</td>
+        <td>{{ rowData.status ? "فعال" : "غیرفعال" }}</td>
+        <td>{{ rowData.roleId }}</td>
+        <td>
+          <button
+            class="btn btn-primary pi pi-user-edit m-1 p-2"
+            (click)="editUser(rowData)"
+          ></button>
+          <button
+            class="btn btn-danger pi pi-times m-1 p-2"
+            (click)="deleteUser(rowData.ID)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
-        <ng-template pTemplate="body" let-rowData>
-            <tr [ngClass]="rowData.status ? 'p-highlight' : ''">
-                <td>{{ rowData.id }}</td>
-                <td>{{ rowData.users.fullNames }}</td>
-                <td>{{ rowData.amount | number }}</td>
-                <td>{{ rowData.description }}</td>
-                <td>{{ rowData.due_Date | jalali }}</td>
-                <td>{{ rowData.serial }}</td>
-                <td>{{ rowData.status ? "پاس شده" : "پاس نشده" }}</td>
-                <td>
-                    <button class="btn btn-primary pi pi-user-edit m-1 p-2" (click)="editUser(rowData)"></button>
-                    <button class="btn btn-danger pi pi-times m-1 p-2" (click)="deleteUser(rowData.ID)"></button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+  <p-dialog
+    [(visible)]="userDialog"
+    [style]="{ width: '70%', direction: 'rtl' }"
+    header="{{ isUpdate ? 'ویرایش' : 'ثبت' }}"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="fullNames">نام و نام خانوادگی</label>
+            <input
+              type="text"
+              pInputText
+              id="fullNames"
+              maxlength="40"
+              formControlName="fullNames"
+              [(ngModel)]="user.fullNames"
+            />
+          </div>
 
-    <p-dialog [(visible)]="userDialog" [style]="{ width: '70%', direction: 'rtl' }"
-        header="{{ isUpdate ? 'ویرایش' : 'ثبت' }}" [modal]="true" styleClass="p-fluid">
-        <ng-template pTemplate="content">
-            <form [formGroup]="useroutForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="amount">مبلغ</label>
-                        <p-inputNumber formControlName="amount" class="styleInputnumber" type="text" pInputText
-                            id="amount" maxlength="40" [(ngModel)]="user.amount" />
-                    </div>
+          <div class="col-md-6">
+            <label for="username">نام کاربری</label>
+            <input
+              type="text"
+              pInputText
+              id="username"
+              maxlength="40"
+              formControlName="username"
+              [(ngModel)]="user.username"
+            />
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="userId">کاربر</label>
-                        <select class="form-control" id="userId" formControlName="userId" [(ngModel)]="user.userId"
-                            #mySelect>
-                            <option value=""></option>
-                            <option *ngFor="let users of allUsers" value="{{ users.id }}">
-                                {{ users.fullNames }}
-                            </option>
-                        </select>
-                    </div>
+          <div class="col-md-6">
+            <label for="password">گذرواژه</label>
+            <input
+              type="text"
+              pInputText
+              id="password"
+              maxlength="40"
+              formControlName="password"
+              [(ngModel)]="user.password"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="password">تکرار گذرواژه</label>
+            <input
+              type="text"
+              pInputText
+              maxlength="40"
 
-                    <div class="col-md-6">
-                        <label for="description">توضیحات</label>
-                        <input type="text" pInputText id="description" maxlength="40" formControlName="description"
-                            [(ngModel)]="user.description" />
-                    </div>
+            />
+          </div>
 
-                    <div class="col-md-6">
-                        <label for="serial">سریال</label>
-                        <input type="text" pInputText id="serial" maxlength="40" formControlName="serial"
-                            [(ngModel)]="user.serial" />
-                    </div>
+          <div class="col-md-6">
+            <label for="roleId">نقش</label>
+            <select
+              class="form-control"
+              id="roleId"
+              formControlName="roleId"
+              [(ngModel)]="user.roleId"
+              #mySelect
+            >
+              <option value=""></option>
+              <option *ngFor="let roles of allRoles" value="{{ roles.id }}">
+                {{ roles.role_Name }}
+              </option>
+            </select>
+          </div>
 
-
-                    <div class="col-md-6">
-                        <label for="وضعیت">وضعیت : </label>
-                        <div class="mt-2">
-                            <p-radioButton name="status" value="1" [(ngModel)]="user.status" formControlName="status"
-                                inputId="status_true" />
-                            &nbsp;
-                            <label for="status_true" class="ml-2"> پاس شده </label>
-                            &nbsp;
-                            <p-radioButton name="status" value="0" [(ngModel)]="user.status" formControlName="status"
-                                inputId="status_false" />
-                            &nbsp;
-                            <label for="status_false" class="ml-2"> پاس نشده </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success">
-                        {{ isUpdate ? "ویرایش" : "ثبت" }}
-                    </button>
-                    <button type="button" class="btn btn-light" (click)="closeDialog()">
-                        انصراف
-                    </button>
-                </div>
-            </form>
-        </ng-template>
-    </p-dialog>
+          <div class="col-md-6">
+            <label for="وضعیت">وضعیت : </label>
+            <div class="mt-2">
+              <p-radioButton
+                name="status"
+                value="1"
+                [(ngModel)]="user.status"
+                formControlName="status"
+                inputId="status_true"
+              />
+              &nbsp;
+              <label for="status_true" class="ml-2"> فعال </label>
+              &nbsp;
+              <p-radioButton
+                name="status"
+                value="0"
+                [(ngModel)]="user.status"
+                formControlName="status"
+                inputId="status_false"
+              />
+              &nbsp;
+              <label for="status_false" class="ml-2"> غیرفعال </label>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">
+            {{ isUpdate ? "ویرایش" : "ثبت" }}
+          </button>
+          <button type="button" class="btn btn-light" (click)="closeDialog()">
+            انصراف
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </p-dialog>
 </p-card>
 
 <p-confirmDialog></p-confirmDialog>

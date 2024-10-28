@@ -5,13 +5,14 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { ApiService } from '../../Services/api.service';
 import moment from 'jalali-moment';
 import { AppModule } from '../../app.module';
+import { Roles } from '../../Models/Roles';
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [AppModule],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
 })
 export class UserComponent implements OnInit {
   checkoutForm!: FormGroup;
@@ -25,26 +26,27 @@ export class UserComponent implements OnInit {
   sumCreditor: number = 0;
 
   isUpdate: boolean = false;
-  allUsers: Users[] = [];
+  allRoles: Roles[] = [];
 
   constructor(
     private apiService: ApiService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadRoles();
     this.loadUsers();
   }
+
   initializeForm(): void {
     this.checkoutForm = this.formBuilder.group({
       fullNames: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
       status: ['', Validators.required],
-      created_Date: ['', Validators.required],
       roleId: ['', Validators.required],
     });
   }
@@ -53,12 +55,27 @@ export class UserComponent implements OnInit {
     try {
       const data = await this.apiService.getAllUsers();
       if (data?.length) {
-        this.allUsers = data;
+        this.users = data;
       }
     } catch (error) {
       console.error('Error loading users:', error);
     }
   }
+
+  async loadRoles(): Promise<void> {
+
+    try {
+      const data = await this.apiService.getAllRoles();
+      debugger;
+      if (data?.length) {
+        debugger;
+        this.allRoles = data;
+      }
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  }
+
   toggleFilter(): void {
     this.hideFilter = !this.hideFilter;
   }
@@ -66,13 +83,6 @@ export class UserComponent implements OnInit {
   async onSubmit(): Promise<void> {
     debugger;
     const userData = this.checkoutForm.value;
-    userData.created_Date = moment(
-      userData.created_Date,
-      'YYYY-MM-DD'
-    )
-      .locale('cs')
-      .format('YYYY-MM-DD');
-
     if (this.isUpdate) {
       await this.updateUser(userData);
     } else {
