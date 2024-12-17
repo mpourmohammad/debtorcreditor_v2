@@ -30,6 +30,7 @@
     dataKey="id"
     [rows]="10"
     [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 50, 100]"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -37,9 +38,9 @@
           شناسه
           <p-sortIcon field="id"></p-sortIcon>
         </th>
-        <th pSortableColumn="users">
+        <th pSortableColumn="users.fullNames">
           نام کاربر
-          <p-sortIcon field="users"></p-sortIcon>
+          <p-sortIcon field="users.fullNames"></p-sortIcon>
         </th>
         <th pSortableColumn="amount">
           مبلغ
@@ -77,7 +78,7 @@
             pInputText
             type="text"
             style="width: 100%"
-            (input)="dt1.filter($event.target.value, 'users')"
+            (input)="dt1.filter($event.target.value, 'users.fullNames')"
           />
         </th>
         <th>

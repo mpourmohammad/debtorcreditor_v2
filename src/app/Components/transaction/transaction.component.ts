@@ -84,7 +84,6 @@ export class TransactionComponent implements OnInit {
   }
 
   calculateSums(): void {
-    debugger;
     this.sumDebtor = this.transactions
       .filter((item) => item.isDebtor !== 0 && item.isClearing === 0)
       .reduce((sum, current) => sum + current.amount, 0);

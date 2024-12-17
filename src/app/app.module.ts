@@ -14,10 +14,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
-import { TransactionComponent } from './Components/transaction/transaction.component';
-import { CheckComponent } from './Components/check/check.component';
-import { routes } from './app.routes';
+import { LoadingComponent } from './Components/loading/loading.component';
+import { LoadingInterceptor } from './interceptor/loading.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingService } from './Services/loading.service';
 
 @NgModule({
   declarations: [JalaliPipe],
@@ -33,6 +33,7 @@ import { routes } from './app.routes';
     PrimengModule,
   ],
   providers: [
+    LoadingService,
     MessageService,
     ConfirmationService,
     {
@@ -41,6 +42,7 @@ import { routes } from './app.routes';
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: PERSIAN_DATE_FORMATS },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
 })
 export class AppModule {}

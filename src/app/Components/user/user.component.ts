@@ -66,9 +66,7 @@ export class UserComponent implements OnInit {
 
     try {
       const data = await this.apiService.getAllRoles();
-      debugger;
       if (data?.length) {
-        debugger;
         this.allRoles = data;
       }
     } catch (error) {
@@ -81,7 +79,6 @@ export class UserComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    debugger;
     const userData = this.checkoutForm.value;
     if (this.isUpdate) {
       await this.updateUser(userData);

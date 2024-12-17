@@ -65,7 +65,6 @@ export class CheckComponent implements OnInit {
   }
 
   async loadChecks(): Promise<void> {
-    debugger;
     try {
       const data = await this.apiService.getChecks();
       if (data?.length) {
@@ -92,7 +91,6 @@ export class CheckComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    debugger;
     const checkData = this.checkoutForm.value;
     checkData.due_Date = moment(
       checkData.due_Date,
